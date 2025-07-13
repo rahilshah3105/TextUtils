@@ -1,70 +1,140 @@
-# Getting Started with Create React App
+# Worded - Advanced Text Analysis & Formatting Tools
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Worded is a comprehensive web application that provides advanced text analysis, formatting, and utility tools. Built with React, it offers a modern, responsive interface with multiple themes and powerful text manipulation capabilities.
 
-## Available Scripts
+## 🚀 Features
 
-In the project directory, you can run:
+### 📝 Text Editor
+- **Case Conversion**: Uppercase, lowercase, capitalize, title case, alternating case
+- **Text Alignment**: Left, center, right, justify alignment
+- **Find & Replace**: Advanced text search and replacement
+- **Text Manipulation**: Reverse text, remove extra spaces
+- **Encryption**: ROT13 encryption/decryption
+- **Text-to-Speech**: Built-in speech synthesis
+- **Copy to Clipboard**: One-click text copying
 
-### `npm start`
+### 📊 Advanced Analysis
+- **Word & Character Count**: Detailed text statistics
+- **Reading Time**: Estimated reading and speaking time
+- **Readability Score**: Flesch Reading Ease calculation
+- **Word Frequency**: Top 10 most frequent words
+- **Character Frequency**: Character usage analysis
+- **Text Statistics**: Sentences, paragraphs, lines count
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 🔍 Text Comparison
+- **Similarity Analysis**: Percentage-based text similarity
+- **Common Words**: Shared vocabulary between texts
+- **Unique Words**: Words unique to each text
+- **Visual Comparison**: Side-by-side text analysis
+- **Statistics Comparison**: Word and character count comparison
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 🛠️ Utility Tools
+- **JSON Tools**: Format and minify JSON
+- **Encoding/Decoding**: Base64, hexadecimal, binary conversion
+- **HTML Tools**: HTML escape/unescape
+- **Generators**: UUID generation, hash generation
+- **URL Tools**: URL encoding/decoding
 
-### `npm test`
+### 🎨 Themes & UI
+- **Multiple Themes**: 8 different color themes (Blue, Red, Green, Yellow, Grey, Aqua, Black, White)
+- **Dark/Light Mode**: Toggle between dark and light modes
+- **Responsive Design**: Works on desktop, tablet, and mobile
+- **Modern Interface**: Clean, intuitive user experience
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠️ Technology Stack
 
-### `npm run build`
+- **Frontend**: React 18.2.0
+- **Styling**: Bootstrap 5
+- **Icons**: React Icons
+- **Build Tool**: Create React App
+- **Deployment**: GitHub Pages
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 📦 Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/worded.git
+cd worded
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Install dependencies:
+```bash
+npm install
+```
 
-### `npm run eject`
+3. Start the development server:
+```bash
+npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🚀 Available Scripts
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- `npm start` - Runs the app in development mode
+- `npm test` - Launches the test runner
+- `npm run build` - Builds the app for production
+- `npm run eject` - Ejects from Create React App (one-way operation)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 📱 Usage
 
-## Learn More
+### Text Editor
+1. Navigate to the "Text Editor" tab
+2. Enter your text in the input area
+3. Use the various formatting buttons to manipulate your text
+4. View real-time statistics and analysis
+5. Copy the result to your clipboard
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Text Comparison
+1. Navigate to the "Text Comparison" tab
+2. Enter two texts in the respective text areas
+3. Click "Compare Texts" to see similarity analysis
+4. View common words, unique words, and similarity percentage
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Utility Tools
+1. Navigate to the "Utility Tools" tab
+2. Select the desired tool from the available options
+3. Enter input text (if required)
+4. Click "Execute" to process
+5. Copy the output to your clipboard
 
-### Code Splitting
+## 🎨 Themes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Worded supports multiple color themes that can be accessed through the "Themes" dropdown in the navigation bar:
+- **Blue**: Professional and clean
+- **Red**: Bold and energetic
+- **Green**: Calming and natural
+- **Yellow**: Bright and cheerful
+- **Grey**: Neutral and balanced
+- **Aqua**: Fresh and modern
+- **Black**: Dark and sophisticated
+- **White**: Clean and minimal
 
-### Analyzing the Bundle Size
+## 🔒 Privacy & Security
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- All text processing is done locally in your browser
+- No data is sent to external servers
+- Your text remains private and secure
+- No cookies or tracking mechanisms
 
-### Making a Progressive Web App
+## 🤝 Contributing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-### Advanced Configuration
+## 📄 License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-### Deployment
+## 🙏 Acknowledgments
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- Built with [Create React App](https://github.com/facebook/create-react-app)
+- Styled with [Bootstrap](https://getbootstrap.com/)
+- Icons from [React Icons](https://react-icons.github.io/react-icons/)
 
-### `npm run build` fails to minify
+## 📞 Support
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+If you have any questions or need support, please open an issue on GitHub.
+
+---
+
+**Worded** - Your comprehensive text analysis and formatting companion! ✨

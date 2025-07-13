@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "FIRST.C": "cpp",
+        "SI.C": "cpp"
+    }
+}
