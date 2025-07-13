@@ -23,7 +23,10 @@ export default function Navbar(props) {
         <>
             <nav className={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`} style={{ color: props.mode === 'dark' ? 'white' : 'black', backgroundColor: props.mode === 'dark' ? 'black' : 'white', position: 'sticky', top: '0', zIndex: '10' }}>
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="/" style={{ color: props.mode === 'dark' ? 'white' : 'black' }}>{props.title}</a>
+                    <a className="navbar-brand d-flex align-items-center" href="/" style={{ color: props.mode === 'dark' ? 'white' : 'black' }}>
+                        <img src="/worded-logo.svg" alt="Worded Logo" style={{ height: '32px', marginRight: '10px' }} />
+                        {props.title}
+                    </a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
