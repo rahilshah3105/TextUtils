@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 export default function TextComparison(props) {
   const [text1, setText1] = useState("");
@@ -13,7 +13,7 @@ export default function TextComparison(props) {
     setText2(event.target.value);
   };
 
-  const compareTexts = () => {
+  const compareTexts = useCallback(() => {
     if (!text1 || !text2) {
       setComparisonResult(null);
       return;
@@ -41,12 +41,12 @@ export default function TextComparison(props) {
       charCount1: text1.length,
       charCount2: text2.length
     });
-  };
+  }, [text1, text2]);
 
   // Automatically compare texts whenever text1 or text2 changes
   useEffect(() => {
     compareTexts();
-  }, [text1, text2]);
+  }, [compareTexts]);
 
   const clearTexts = () => {
     setText1("");
