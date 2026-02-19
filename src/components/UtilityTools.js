@@ -196,13 +196,13 @@ export default function UtilityTools(props) {
   return (
     <div
       className="container my-4"
-      style={{ color: props.mode === "dark" ? "white" : "black" }}
+      style={{ color: props.mode === "dark" ? "#c9d1d9" : "#1f2328" }}
     >
-      <h2 className="mb-3">Utility Tools</h2>
+      <h2 className="mb-3" style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>Utility Tools</h2>
       
       {/* Tool Selection */}
       <div className="mb-3">
-        <h5>Select Tool:</h5>
+        <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Select Tool:</h5>
         <div className="row">
           <div className="col-md-3 mb-2">
             <button
@@ -306,14 +306,17 @@ export default function UtilityTools(props) {
       {/* Input/Output Section */}
       <div className="row">
         <div className="col-md-6">
-          <h5>Input</h5>
+          <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Input</h5>
           <textarea
             className="form-control"
             value={inputText}
             onChange={handleInputChange}
             style={{
-              backgroundColor: props.mode === "dark" ? "#042743" : "white",
-              color: props.mode === "dark" ? "white" : "black",
+              backgroundColor: props.mode === "dark" ? "rgba(36, 52, 71, 0.6)" : "rgba(255, 255, 255, 0.9)",
+              color: props.mode === "dark" ? "#ffffff" : "#212529",
+              border: `2px solid ${props.mode === "dark" ? "rgba(61, 90, 128, 0.3)" : "rgba(0, 0, 0, 0.1)"}`,
+              transition: "all 0.3s ease",
+              fontWeight: "400"
             }}
             rows="10"
             placeholder={
@@ -327,14 +330,17 @@ export default function UtilityTools(props) {
         </div>
         
         <div className="col-md-6">
-          <h5>Output</h5>
+          <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Output</h5>
           <textarea
             className="form-control"
             value={outputText}
             readOnly
             style={{
-              backgroundColor: props.mode === "dark" ? "#042743" : "white",
-              color: props.mode === "dark" ? "white" : "black",
+              backgroundColor: props.mode === "dark" ? "rgba(36, 52, 71, 0.6)" : "rgba(255, 255, 255, 0.9)",
+              color: props.mode === "dark" ? "#ffffff" : "#212529",
+              border: `2px solid ${props.mode === "dark" ? "rgba(61, 90, 128, 0.3)" : "rgba(0, 0, 0, 0.1)"}`,
+              transition: "all 0.3s ease",
+              fontWeight: "400"
             }}
             rows="10"
             placeholder="Output will appear here..."

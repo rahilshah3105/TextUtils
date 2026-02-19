@@ -1,8 +1,9 @@
 // import logo from './logo.svg';
 import './App.css';
+import './ModernUI.css';
 import Navbar from './components/Navbar';
 import TextForm from './components/TextForm';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Alert from './components/Alert';
 import TextComparison from './components/TextComparison';
 import UtilityTools from './components/UtilityTools';
@@ -14,9 +15,35 @@ import UtilityTools from './components/UtilityTools';
 // } from "react-router-dom";
 
 function App() {
-  const [mode, setMode] = useState(false);
+  const [mode, setMode] = useState(localStorage.getItem('mode') || 'light');
   const [alert, setAlert] = useState(null);
-  const [activeTab, setActiveTab] = useState('textForm');
+  const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab') || 'textForm');
+
+  // Save preferences to localStorage
+  useEffect(() => {
+    localStorage.setItem('mode', mode);
+    localStorage.setItem('activeTab', activeTab);
+  }, [mode, activeTab]);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      // Ctrl/Cmd + S to save
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        showAlert('Document auto-saved!', 'success');
+      }
+      // Ctrl/Cmd + 1, 2, 3 to switch tabs
+      if ((e.ctrlKey || e.metaKey) && ['1', '2', '3'].includes(e.key)) {
+        e.preventDefault();
+        const tabs = ['textForm', 'textComparison', 'utilityTools'];
+        setActiveTab(tabs[parseInt(e.key) - 1]);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, []);
 
   const showAlert = (message, type) => {
     setAlert({
@@ -49,51 +76,13 @@ function App() {
   };
 
   const toggleMode = (cls) => {
-    removeBodyClasses(); // Assuming this function removes classes like 'bg-dark', 'bg-light', etc.
+    removeBodyClasses();
 
-  // Toggle mode state and apply corresponding background color
-    if (mode === 'light') {
-      document.body.style.backgroundColor = '#042743';
-      setMode('dark');
-    } else {
-      setMode('light');
-      document.body.style.backgroundColor = 'white';
-    }
+    // Toggle mode state - simplified to light or dark
+    setMode(cls === 'light' ? 'light' : 'dark');
 
     // Add the new background class to the body
     document.body.classList.add('bg-' + cls);
-
-    // Select the textarea and about elements
-    const textArea = document.querySelector('textarea');
-    if (textArea) {
-      textArea.classList.remove('bg-light', 'bg-dark', 'bg-danger', 'bg-success', 'bg-warning', 'bg-secondary', 'bg-info'); // Remove conflicting classes
-      textArea.classList.add('bg-' + cls);
-    }
-
-    // // Select the textarea and about elements
-    // const change = document.querySelectorAll('.change');
-    // change.forEach((element) => {
-    //   element.classList.remove(
-    //     'btn-light',
-    //     'btn-dark',
-    //     'btn-danger',
-    //     'btn-success',
-    //     'btn-warning',
-    //     'btn-secondary',
-    //     'btn-info'
-    //   );
-    //   element.classList.add('btn-' + cls);
-    //   // if (change) {
-    //   //   change.classList.remove('btn-light', 'btn-dark', 'btn-danger', 'btn-success', 'btn-warning', 'btn-secondary', 'btn-info'); // Remove conflicting classes
-    //   //    chage.classList.add('btn-' + cls);
-    //   // }
-    // });
-
-    const about = document.querySelector('.about');
-    if (about) {
-      about.classList.remove('bg-light', 'bg-dark', 'bg-danger', 'bg-success', 'bg-warning', 'bg-secondary', 'bg-info'); // Remove conflicting classes
-      about.classList.add('bg-' + cls);
-    }
 
     // Show an alert indicating mode change
     showAlert("Mode has been changed...", "success");

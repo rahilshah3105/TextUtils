@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function TextComparison(props) {
   const [text1, setText1] = useState("");
@@ -15,7 +15,7 @@ export default function TextComparison(props) {
 
   const compareTexts = () => {
     if (!text1 || !text2) {
-      props.showAlert("Please enter both texts to compare", "warning");
+      setComparisonResult(null);
       return;
     }
 
@@ -41,9 +41,12 @@ export default function TextComparison(props) {
       charCount1: text1.length,
       charCount2: text2.length
     });
-    
-    props.showAlert("Text comparison completed", "success");
   };
+
+  // Automatically compare texts whenever text1 or text2 changes
+  useEffect(() => {
+    compareTexts();
+  }, [text1, text2]);
 
   const clearTexts = () => {
     setText1("");
@@ -55,20 +58,25 @@ export default function TextComparison(props) {
   return (
     <div
       className="container my-4"
-      style={{ color: props.mode === "dark" ? "white" : "black" }}
+      style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}
     >
-      <h2 className="mb-3">Text Comparison Tool</h2>
+      <h2 className="mb-3" style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>Text Comparison Tool</h2>
       
       <div className="row">
         <div className="col-md-6">
-          <h5>Text 1</h5>
+          <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Text 1</h5>
           <textarea
             className="form-control"
             value={text1}
             onChange={handleText1Change}
             style={{
-              backgroundColor: props.mode === "dark" ? "#042743" : "white",
-              color: props.mode === "dark" ? "white" : "black",
+              backgroundColor: props.mode === "dark" ? "rgba(36, 52, 71, 0.6)" : "rgba(255, 255, 255, 0.9)",
+              color: props.mode === "dark" ? "#ffffff" : "#212529",
+              border: `2px solid ${props.mode === "dark" ? "rgba(61, 90, 128, 0.3)" : "rgba(0, 0, 0, 0.1)"}`,
+              transition: "all 0.3s ease",
+              fontSize: "16px",
+              lineHeight: "1.6",
+              fontWeight: "400"
             }}
             rows="8"
             placeholder="Enter first text here..."
@@ -76,14 +84,19 @@ export default function TextComparison(props) {
         </div>
         
         <div className="col-md-6">
-          <h5>Text 2</h5>
+          <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Text 2</h5>
           <textarea
             className="form-control"
             value={text2}
             onChange={handleText2Change}
             style={{
-              backgroundColor: props.mode === "dark" ? "#042743" : "white",
-              color: props.mode === "dark" ? "white" : "black",
+              backgroundColor: props.mode === "dark" ? "rgba(36, 52, 71, 0.6)" : "rgba(255, 255, 255, 0.9)",
+              color: props.mode === "dark" ? "#ffffff" : "#212529",
+              border: `2px solid ${props.mode === "dark" ? "rgba(61, 90, 128, 0.3)" : "rgba(0, 0, 0, 0.1)"}`,
+              transition: "all 0.3s ease",
+              fontSize: "16px",
+              lineHeight: "1.6",
+              fontWeight: "400"
             }}
             rows="8"
             placeholder="Enter second text here..."
@@ -105,38 +118,61 @@ export default function TextComparison(props) {
         >
           Clear All
         </button>
+        <div className="d-inline-block ms-3">
+          <span className="badge bg-info me-2">
+            ⚡ Live Mode
+          </span>
+          <small style={{ 
+            color: props.mode === "dark" ? "#c9d1d9" : "#6c757d",
+            fontWeight: "500"
+          }}>
+            Results update automatically as you type
+          </small>
+        </div>
       </div>
       
       {comparisonResult && (
         <div className="mt-4">
-          <h3>Comparison Results</h3>
+          <h3 style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>Comparison Results</h3>
           
           <div className="row">
             <div className="col-md-6">
-              <div className="card" style={{ backgroundColor: props.mode === "dark" ? "#042743" : "white" }}>
+              <div className="card" style={{ 
+                backgroundColor: props.mode === "dark" ? "#1a2332" : "white",
+                border: `1px solid ${props.mode === "dark" ? "#243447" : "rgba(0, 0, 0, 0.06)"}`,
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"
+              }}>
                 <div className="card-body">
-                  <h5 className="card-title">Text 1 Statistics</h5>
-                  <p><strong>Words:</strong> {comparisonResult.wordCount1}</p>
-                  <p><strong>Characters:</strong> {comparisonResult.charCount1}</p>
+                  <h5 className="card-title" style={{ color: props.mode === "dark" ? "#539bf5" : "#0969da" }}>Text 1 Statistics</h5>
+                  <p style={{ color: props.mode === "dark" ? "#ffffff" : "#212529" }}><strong>Words:</strong> {comparisonResult.wordCount1}</p>
+                  <p style={{ color: props.mode === "dark" ? "#ffffff" : "#212529" }}><strong>Characters:</strong> {comparisonResult.charCount1}</p>
                 </div>
               </div>
             </div>
             
             <div className="col-md-6">
-              <div className="card" style={{ backgroundColor: props.mode === "dark" ? "#042743" : "white" }}>
+              <div className="card" style={{ 
+                backgroundColor: props.mode === "dark" ? "#1a2332" : "white",
+                border: `1px solid ${props.mode === "dark" ? "#243447" : "rgba(0, 0, 0, 0.06)"}`,
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"
+              }}>
                 <div className="card-body">
-                  <h5 className="card-title">Text 2 Statistics</h5>
-                  <p><strong>Words:</strong> {comparisonResult.wordCount2}</p>
-                  <p><strong>Characters:</strong> {comparisonResult.charCount2}</p>
+                  <h5 className="card-title" style={{ color: props.mode === "dark" ? "#539bf5" : "#0969da" }}>Text 2 Statistics</h5>
+                  <p style={{ color: props.mode === "dark" ? "#ffffff" : "#212529" }}><strong>Words:</strong> {comparisonResult.wordCount2}</p>
+                  <p style={{ color: props.mode === "dark" ? "#ffffff" : "#212529" }}><strong>Characters:</strong> {comparisonResult.charCount2}</p>
                 </div>
               </div>
             </div>
           </div>
           
           <div className="mt-3">
-            <div className="card" style={{ backgroundColor: props.mode === "dark" ? "#042743" : "white" }}>
+            <div className="card" style={{ 
+              backgroundColor: props.mode === "dark" ? "#1a2332" : "white",
+              border: `1px solid ${props.mode === "dark" ? "#243447" : "rgba(0, 0, 0, 0.06)"}`,
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"
+            }}>
               <div className="card-body">
-                <h5 className="card-title">Similarity Analysis</h5>
+                <h5 className="card-title" style={{ color: props.mode === "dark" ? "#539bf5" : "#0969da" }}>Similarity Analysis</h5>
                 <div className="progress mb-3">
                   <div 
                     className="progress-bar" 
@@ -152,8 +188,14 @@ export default function TextComparison(props) {
                 
                 <div className="row">
                   <div className="col-md-4">
-                    <h6>Common Words ({comparisonResult.commonWords.length})</h6>
-                    <div style={{ maxHeight: '150px', overflowY: 'auto' }}>
+                    <h6 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Common Words ({comparisonResult.commonWords.length})</h6>
+                    <div style={{ 
+                      maxHeight: '150px', 
+                      overflowY: 'auto',
+                      backgroundColor: props.mode === "dark" ? "#243447" : "#f8f9fa",
+                      padding: '10px',
+                      borderRadius: '8px'
+                    }}>
                       {comparisonResult.commonWords.map((word, index) => (
                         <span key={index} className="badge bg-success me-1 mb-1">{word}</span>
                       ))}
@@ -161,8 +203,14 @@ export default function TextComparison(props) {
                   </div>
                   
                   <div className="col-md-4">
-                    <h6>Unique to Text 1 ({comparisonResult.uniqueToText1.length})</h6>
-                    <div style={{ maxHeight: '150px', overflowY: 'auto' }}>
+                    <h6 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Unique to Text 1 ({comparisonResult.uniqueToText1.length})</h6>
+                    <div style={{ 
+                      maxHeight: '150px', 
+                      overflowY: 'auto',
+                      backgroundColor: props.mode === "dark" ? "#243447" : "#f8f9fa",
+                      padding: '10px',
+                      borderRadius: '8px'
+                    }}>
                       {comparisonResult.uniqueToText1.map((word, index) => (
                         <span key={index} className="badge bg-primary me-1 mb-1">{word}</span>
                       ))}
@@ -170,8 +218,14 @@ export default function TextComparison(props) {
                   </div>
                   
                   <div className="col-md-4">
-                    <h6>Unique to Text 2 ({comparisonResult.uniqueToText2.length})</h6>
-                    <div style={{ maxHeight: '150px', overflowY: 'auto' }}>
+                    <h6 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Unique to Text 2 ({comparisonResult.uniqueToText2.length})</h6>
+                    <div style={{ 
+                      maxHeight: '150px', 
+                      overflowY: 'auto',
+                      backgroundColor: props.mode === "dark" ? "#243447" : "#f8f9fa",
+                      padding: '10px',
+                      borderRadius: '8px'
+                    }}>
                       {comparisonResult.uniqueToText2.map((word, index) => (
                         <span key={index} className="badge bg-warning me-1 mb-1">{word}</span>
                       ))}

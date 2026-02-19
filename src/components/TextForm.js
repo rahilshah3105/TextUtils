@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function TextForm(props) {
   const [text, setText] = useState("");
@@ -6,6 +6,30 @@ export default function TextForm(props) {
   const [replaceText, setReplaceText] = useState("");
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [textAlignment, setTextAlignment] = useState("left");
+  const [savedDrafts, setSavedDrafts] = useState([]);
+
+  // Load drafts from localStorage on mount
+  useEffect(() => {
+    const drafts = JSON.parse(localStorage.getItem('textDrafts') || '[]');
+    setSavedDrafts(drafts);
+    
+    // Load last saved text if exists
+    const lastText = localStorage.getItem('lastText');
+    if (lastText) {
+      setText(lastText);
+    }
+  }, []);
+
+  // Auto-save text to localStorage
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (text) {
+        localStorage.setItem('lastText', text);
+      }
+    }, 2000); // Auto-save after 2 seconds of inactivity
+
+    return () => clearTimeout(timer);
+  }, [text]);
 
   const handleOnChange = (event) => {
     setText(event.target.value);
@@ -148,6 +172,96 @@ export default function TextForm(props) {
     }
   };
 
+  // Save/Load/Export functions
+  const handleSaveDraft = () => {
+    if (!text.trim()) {
+      props.showAlert("Cannot save empty text", "warning");
+      return;
+    }
+    
+    const draft = {
+      id: Date.now(),
+      text: text,
+      timestamp: new Date().toLocaleString(),
+      preview: text.substring(0, 50) + (text.length > 50 ? '...' : '')
+    };
+    
+    const drafts = [...savedDrafts, draft];
+    setSavedDrafts(drafts);
+    localStorage.setItem('textDrafts', JSON.stringify(drafts));
+    props.showAlert("Draft saved successfully", "success");
+  };
+
+  const handleLoadDraft = (draft) => {
+    setText(draft.text);
+    props.showAlert("Draft loaded", "success");
+  };
+
+  const handleDeleteDraft = (id) => {
+    const drafts = savedDrafts.filter(d => d.id !== id);
+    setSavedDrafts(drafts);
+    localStorage.setItem('textDrafts', JSON.stringify(drafts));
+    props.showAlert("Draft deleted", "success");
+  };
+
+  const handleExportTXT = () => {
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `textutils_${Date.now()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    props.showAlert("Exported as TXT", "success");
+  };
+
+  const handleExportHTML = () => {
+    const htmlContent = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Exported Text</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
+        .content { max-width: 800px; margin: 0 auto; }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <pre>${text}</pre>
+    </div>
+</body>
+</html>`;
+    
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `textutils_${Date.now()}.html`;
+    a.click();
+    URL.revokeObjectURL(url);
+    props.showAlert("Exported as HTML", "success");
+  };
+
+  const handlePrint = () => {
+    const printWindow = window.open('', '', 'height=600,width=800');
+    printWindow.document.write('<html><head><title>Print</title>');
+    printWindow.document.write('<style>body{font-family: Arial; padding: 20px; line-height: 1.6;}</style>');
+    printWindow.document.write('</head><body>');
+    printWindow.document.write('<pre>' + text + '</pre>');
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
+    props.showAlert("Print dialog opened", "success");
+  };
+
+  const handleEmailText = () => {
+    const subject = encodeURIComponent("Shared Text from Worded");
+    const body = encodeURIComponent(text);
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    props.showAlert("Email client opened", "success");
+  };
+
   // Text analysis functions
   const getWordFrequency = () => {
     const words = text.toLowerCase().match(/\b\w+\b/g) || [];
@@ -203,9 +317,9 @@ export default function TextForm(props) {
     <>
       <div
         className="container"
-        style={{ color: props.mode === "dark" ? "white" : "black" }}
+        style={{ color: props.mode === "dark" ? "#c9d1d9" : "#1f2328" }}
       >
-        <h1 className="mb-3">{props.heading}</h1>
+        <h1 className="mb-3" style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>{props.heading}</h1>
 
         {/* Text Input */}
         <div className="mb-3">
@@ -214,9 +328,12 @@ export default function TextForm(props) {
             value={text}
             onChange={handleOnChange}
             style={{
-              backgroundColor: props.mode === "dark" ? "#042743" : "white",
-              color: props.mode === "dark" ? "white" : "black",
-              textAlign: textAlignment
+              backgroundColor: props.mode === "dark" ? "rgba(36, 52, 71, 0.6)" : "rgba(255, 255, 255, 0.9)",
+              color: props.mode === "dark" ? "#ffffff" : "#212529",
+              border: `2px solid ${props.mode === "dark" ? "rgba(61, 90, 128, 0.3)" : "rgba(0, 0, 0, 0.1)"}`,
+              textAlign: textAlignment,
+              transition: "all 0.3s ease",
+              fontWeight: "400"
             }}
             id="myBox"
             rows="8"
@@ -226,27 +343,27 @@ export default function TextForm(props) {
 
         {/* Basic Text Operations */}
         <div className="mb-3">
-          <h5>Basic Operations</h5>
+          <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Basic Operations</h5>
           <button
             disabled={text.length === 0}
             className="btn btn-primary change mx-1 my-1"
             onClick={handleUpClick}
           >
-            Uppercase
+            UPPERCASE
           </button>
           <button
             disabled={text.length === 0}
             className="btn btn-primary change mx-1 my-1"
             onClick={handleLowClick}
           >
-            Lowercase
+            lowercase
           </button>
           <button
             disabled={text.length === 0}
             className="btn btn-primary change mx-1 my-1"
             onClick={handleCapitalize}
           >
-            Capitalize
+            Capitalize Each Word
           </button>
           <button
             disabled={text.length === 0}
@@ -273,7 +390,7 @@ export default function TextForm(props) {
 
         {/* Text Alignment */}
         <div className="mb-3">
-          <h5>Text Alignment</h5>
+          <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Text Alignment</h5>
           <button
             className={`btn ${textAlignment === 'left' ? 'btn-success' : 'btn-outline-success'} mx-1 my-1`}
             onClick={() => setTextAlignment('left')}
@@ -302,7 +419,7 @@ export default function TextForm(props) {
 
         {/* Advanced Operations */}
         <div className="mb-3">
-          <h5>Advanced Operations</h5>
+          <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Advanced Operations</h5>
           <button
             disabled={text.length === 0}
             className="btn btn-warning change mx-1 my-1"
@@ -356,7 +473,7 @@ export default function TextForm(props) {
 
         {/* Find and Replace */}
         <div className="mb-3">
-          <h5>Find and Replace</h5>
+          <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Find and Replace</h5>
           <div className="row">
             <div className="col-md-4">
               <input
@@ -366,8 +483,9 @@ export default function TextForm(props) {
                 value={findText}
                 onChange={(e) => setFindText(e.target.value)}
                 style={{
-                  backgroundColor: props.mode === "dark" ? "#042743" : "white",
-                  color: props.mode === "dark" ? "white" : "black",
+                  backgroundColor: props.mode === "dark" ? "rgba(36, 52, 71, 0.6)" : "rgba(255, 255, 255, 0.9)",
+                  color: props.mode === "dark" ? "#ffffff" : "#212529",
+                  border: `2px solid ${props.mode === "dark" ? "rgba(61, 90, 128, 0.3)" : "rgba(0, 0, 0, 0.1)"}`,
                 }}
               />
             </div>
@@ -379,8 +497,9 @@ export default function TextForm(props) {
                 value={replaceText}
                 onChange={(e) => setReplaceText(e.target.value)}
                 style={{
-                  backgroundColor: props.mode === "dark" ? "#042743" : "white",
-                  color: props.mode === "dark" ? "white" : "black",
+                  backgroundColor: props.mode === "dark" ? "rgba(36, 52, 71, 0.6)" : "rgba(255, 255, 255, 0.9)",
+                  color: props.mode === "dark" ? "#ffffff" : "#212529",
+                  border: `2px solid ${props.mode === "dark" ? "rgba(61, 90, 128, 0.3)" : "rgba(0, 0, 0, 0.1)"}`,
                 }}
               />
             </div>
@@ -397,7 +516,7 @@ export default function TextForm(props) {
 
         {/* Generators */}
         <div className="mb-3">
-          <h5>Generators</h5>
+          <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Generators</h5>
           <button
             className="btn btn-secondary mx-1 my-1"
             onClick={handleGenerateLoremIpsum}
@@ -418,6 +537,81 @@ export default function TextForm(props) {
           </button>
         </div>
 
+        {/* Save/Export Options */}
+        <div className="mb-3">
+          <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Save & Export</h5>
+          <button
+            disabled={text.length === 0}
+            className="btn btn-success mx-1 my-1"
+            onClick={handleSaveDraft}
+          >
+            Save Draft
+          </button>
+          <button
+            disabled={text.length === 0}
+            className="btn btn-info mx-1 my-1"
+            onClick={handleExportTXT}
+          >
+            Export TXT
+          </button>
+          <button
+            disabled={text.length === 0}
+            className="btn btn-info mx-1 my-1"
+            onClick={handleExportHTML}
+          >
+            Export HTML
+          </button>
+          <button
+            disabled={text.length === 0}
+            className="btn btn-info mx-1 my-1"
+            onClick={handlePrint}
+          >
+            Print
+          </button>
+          <button
+            disabled={text.length === 0}
+            className="btn btn-info mx-1 my-1"
+            onClick={handleEmailText}
+          >
+            Email
+          </button>
+        </div>
+
+        {/* Saved Drafts */}
+        {savedDrafts.length > 0 && (
+          <div className="mb-3">
+            <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Saved Drafts ({savedDrafts.length})</h5>
+            <div className="row">
+              {savedDrafts.slice(-5).reverse().map((draft) => (
+                <div key={draft.id} className="col-md-6 mb-2">
+                  <div className="card">
+                    <div className="card-body" style={{
+                      backgroundColor: props.mode === "dark" ? "#1a2332" : "white",
+                      color: props.mode === "dark" ? "#e6edf3" : "#212529",
+                      border: `1px solid ${props.mode === "dark" ? "#243447" : "rgba(0, 0, 0, 0.06)"}`,
+                    }}>
+                      <p className="card-text small mb-2">{draft.preview}</p>
+                      <small className="text-muted d-block mb-2">{draft.timestamp}</small>
+                      <button
+                        className="btn btn-sm btn-primary me-2"
+                        onClick={() => handleLoadDraft(draft)}
+                      >
+                        Load
+                      </button>
+                      <button
+                        className="btn btn-sm btn-danger"
+                        onClick={() => handleDeleteDraft(draft.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Advanced Analysis Toggle */}
         <div className="mb-3">
           <button
@@ -431,12 +625,12 @@ export default function TextForm(props) {
         {/* Advanced Analysis */}
         {showAdvanced && (
           <div className="mb-3">
-            <h5>Advanced Text Analysis</h5>
+            <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Advanced Text Analysis</h5>
 
             {/* Word Frequency */}
             <div className="row mb-3">
               <div className="col-md-6">
-                <h6>Top 10 Most Frequent Words:</h6>
+                <h6 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Top 10 Most Frequent Words:</h6>
                 <div className="border rounded p-2" style={{ maxHeight: '200px', overflowY: 'auto' }}>
                   {wordFreq.map(([word, count], index) => (
                     <div key={index} className="d-flex justify-content-between">
@@ -449,7 +643,7 @@ export default function TextForm(props) {
 
               {/* Character Frequency */}
               <div className="col-md-6">
-                <h6>Top 10 Most Frequent Characters:</h6>
+                <h6 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Top 10 Most Frequent Characters:</h6>
                 <div className="border rounded p-2" style={{ maxHeight: '200px', overflowY: 'auto' }}>
                   {charFreq.map(([char, count], index) => (
                     <div key={index} className="d-flex justify-content-between">
@@ -467,40 +661,84 @@ export default function TextForm(props) {
       {/* Text Summary */}
       <div
         className="container my-3"
-        style={{ color: props.mode === "dark" ? "white" : "black" }}
+        style={{ color: props.mode === "dark" ? "#c9d1d9" : "#1f2328" }}
       >
-        <h2>Text Summary</h2>
-        <div className="row">
-          <div className="col-md-6">
-            <p><strong>Words:</strong> {stats.words}</p>
-            <p><strong>Characters:</strong> {stats.characters}</p>
-            <p><strong>Characters (no spaces):</strong> {stats.charactersNoSpaces}</p>
-            <p><strong>Sentences:</strong> {stats.sentences}</p>
-            <p><strong>Paragraphs:</strong> {stats.paragraphs}</p>
-            <p><strong>Lines:</strong> {stats.lines}</p>
+        <h2 className="mb-3" style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>Text Summary</h2>
+        
+        {/* Statistics Dashboard */}
+        <div className="stats-dashboard">
+          <div className="stat-item">
+            <h3 style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>{stats.words}</h3>
+            <p>Words</p>
           </div>
-          <div className="col-md-6">
-            <p><strong>Reading Time:</strong> {Math.ceil(stats.words / 200)} minutes</p>
-            <p><strong>Speaking Time:</strong> {Math.ceil(stats.words / 130)} minutes</p>
-            <p><strong>Readability Score:</strong> {readability} (Flesch Reading Ease)</p>
-            <p><strong>Readability Level:</strong> {
-              readability >= 90 ? "Very Easy" :
-                readability >= 80 ? "Easy" :
-                  readability >= 70 ? "Fairly Easy" :
-                    readability >= 60 ? "Standard" :
-                      readability >= 50 ? "Fairly Difficult" :
-                        readability >= 30 ? "Difficult" : "Very Difficult"
-            }</p>
+          <div className="stat-item">
+            <h3 style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>{stats.characters}</h3>
+            <p>Characters</p>
+          </div>
+          <div className="stat-item">
+            <h3 style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>{stats.sentences}</h3>
+            <p>Sentences</p>
+          </div>
+          <div className="stat-item">
+            <h3 style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>{stats.paragraphs}</h3>
+            <p>Paragraphs</p>
+          </div>
+          <div className="stat-item">
+            <h3 style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>{Math.ceil(stats.words / 200)} min</h3>
+            <p>Reading Time</p>
+          </div>
+          <div className="stat-item">
+            <h3 style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>{Math.ceil(stats.words / 130)} min</h3>
+            <p>Speaking Time</p>
           </div>
         </div>
 
-        <h3>Preview</h3>
+        {/* Detailed Stats */}
+        <div className="row mt-3">
+          <div className="col-md-6">
+            <div className="card">
+              <div className="card-body" style={{
+                backgroundColor: props.mode === "dark" ? "#1a2332" : "white",
+                color: props.mode === "dark" ? "#e6edf3" : "#212529"
+              }}>
+                <h6 style={{ color: props.mode === "dark" ? "#539bf5" : "#0969da" }}>Readability Analysis</h6>
+                <p className="mb-1"><strong>Score:</strong> {readability} (Flesch Reading Ease)</p>
+                <p className="mb-0"><strong>Level:</strong> {
+                  readability >= 90 ? "Very Easy" :
+                    readability >= 80 ? "Easy" :
+                      readability >= 70 ? "Fairly Easy" :
+                        readability >= 60 ? "Standard" :
+                          readability >= 50 ? "Fairly Difficult" :
+                            readability >= 30 ? "Difficult" : "Very Difficult"
+                }</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="card">
+              <div className="card-body" style={{
+                backgroundColor: props.mode === "dark" ? "#1a2332" : "white",
+                color: props.mode === "dark" ? "#e6edf3" : "#212529"
+              }}>
+                <h6 style={{ color: props.mode === "dark" ? "#539bf5" : "#0969da" }}>Detailed Metrics</h6>
+                <p className="mb-1"><strong>Characters (no spaces):</strong> {stats.charactersNoSpaces}</p>
+                <p className="mb-1"><strong>Lines:</strong> {stats.lines}</p>
+                <p className="mb-0"><strong>Average Word Length:</strong> {stats.words > 0 ? (stats.charactersNoSpaces / stats.words).toFixed(2) : 0} chars</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 className="mt-4 mb-3" style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>Preview</h3>
         <div
           className="border rounded p-3"
           style={{
-            backgroundColor: props.mode === "dark" ? "#042743" : "white",
-            color: props.mode === "dark" ? "white" : "black",
-            textAlign: textAlignment
+            backgroundColor: props.mode === "dark" ? "#1a2332" : "#f8f9fa",
+            color: props.mode === "dark" ? "#e6edf3" : "#212529",
+            border: `2px solid ${props.mode === "dark" ? "#243447" : "rgba(0, 0, 0, 0.08)"}`,
+            textAlign: textAlignment,
+            minHeight: "100px",
+            transition: "all 0.3s ease"
           }}
         >
           {text.length > 0 ? text : "Nothing to Preview"}
