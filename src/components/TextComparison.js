@@ -70,9 +70,9 @@ export default function TextComparison(props) {
             value={text1}
             onChange={handleText1Change}
             style={{
-              backgroundColor: props.mode === "dark" ? "rgba(36, 52, 71, 0.6)" : "rgba(255, 255, 255, 0.9)",
+              backgroundColor: props.mode === "dark" ? "transparent" : "rgba(255, 255, 255, 0.9)",
               color: props.mode === "dark" ? "#ffffff" : "#212529",
-              border: `2px solid ${props.mode === "dark" ? "rgba(61, 90, 128, 0.3)" : "rgba(0, 0, 0, 0.1)"}`,
+              border: `2px solid ${props.mode === "dark" ? "rgba(99, 102, 241, 0.35)" : "rgba(0, 0, 0, 0.1)"}`,
               transition: "all 0.3s ease",
               fontSize: "16px",
               lineHeight: "1.6",
@@ -90,9 +90,9 @@ export default function TextComparison(props) {
             value={text2}
             onChange={handleText2Change}
             style={{
-              backgroundColor: props.mode === "dark" ? "rgba(36, 52, 71, 0.6)" : "rgba(255, 255, 255, 0.9)",
+              backgroundColor: props.mode === "dark" ? "transparent" : "rgba(255, 255, 255, 0.9)",
               color: props.mode === "dark" ? "#ffffff" : "#212529",
-              border: `2px solid ${props.mode === "dark" ? "rgba(61, 90, 128, 0.3)" : "rgba(0, 0, 0, 0.1)"}`,
+              border: `2px solid ${props.mode === "dark" ? "rgba(99, 102, 241, 0.35)" : "rgba(0, 0, 0, 0.1)"}`,
               transition: "all 0.3s ease",
               fontSize: "16px",
               lineHeight: "1.6",

@@ -15,8 +15,8 @@
   --text-dark-secondary: #8b949e;
   
   /* Accent Colors */
-  --primary-gradient-start: #667eea;
-  --primary-gradient-end: #764ba2;
+  --primary-gradient-start: #6366f1;
+  --primary-gradient-end: #4f46e5;
   --success-gradient-start: #11998e;
   --success-gradient-end: #38ef7d;
   --danger-gradient-start: #ee0979;
@@ -48,36 +48,6 @@ body.bg-light {
 body.bg-dark {
   color: #c9d1d9;
   background-color: #0f1419;
-}
-
-body.bg-primary {
-  color: #c9d1d9;
-  background-color: #1a1f3a;
-}
-
-body.bg-danger {
-  color: #c9d1d9;
-  background-color: #2a1215;
-}
-
-body.bg-success {
-  color: #c9d1d9;
-  background-color: #0d2818;
-}
-
-body.bg-warning {
-  color: #c9d1d9;
-  background-color: #2a2310;
-}
-
-body.bg-secondary {
-  color: #c9d1d9;
-  background-color: #1a1d23;
-}
-
-body.bg-info {
-  color: #c9d1d9;
-  background-color: #0d1f2a;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -118,13 +88,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary {
-  background-color: #0969da;
+  background-color: #6366f1;
   color: white;
-  border-color: rgba(27, 31, 36, 0.15);
+  border-color: rgba(99, 102, 241, 0.2);
 }
 
 .btn-primary:hover {
-  background-color: #0860ca;
+  background-color: #4f46e5;
 }
 
 .btn-success {
@@ -159,13 +129,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-info {
-  background-color: #0969da;
+  background-color: #818cf8;
   color: white;
-  border-color: rgba(27, 31, 36, 0.15);
+  border-color: rgba(99, 102, 241, 0.2);
 }
 
 .btn-info:hover {
-  background-color: #0860ca;
+  background-color: #6366f1;
 }
 
 .btn-secondary {
@@ -199,45 +169,27 @@ textarea.form-control::placeholder {
 
 textarea.form-control:focus {
   outline: none;
-  border-color: #0969da;
-  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.12);
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.14);
   background: rgba(255, 255, 255, 1);
 }
 
 /* Dark mode textarea */
-body.bg-dark textarea.form-control,
-body.bg-primary textarea.form-control,
-body.bg-danger textarea.form-control,
-body.bg-success textarea.form-control,
-body.bg-warning textarea.form-control,
-body.bg-secondary textarea.form-control,
-body.bg-info textarea.form-control {
-  background: rgba(36, 52, 71, 0.6);
+body.bg-dark textarea.form-control {
+  background: transparent;
   color: #ffffff;
-  border-color: rgba(61, 90, 128, 0.3);
+  border-color: rgba(99, 102, 241, 0.35);
 }
 
-body.bg-dark textarea.form-control::placeholder,
-body.bg-primary textarea.form-control::placeholder,
-body.bg-danger textarea.form-control::placeholder,
-body.bg-success textarea.form-control::placeholder,
-body.bg-warning textarea.form-control::placeholder,
-body.bg-secondary textarea.form-control::placeholder,
-body.bg-info textarea.form-control::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+body.bg-dark textarea.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.35);
   opacity: 1;
 }
 
-body.bg-dark textarea.form-control:focus,
-body.bg-primary textarea.form-control:focus,
-body.bg-danger textarea.form-control:focus,
-body.bg-success textarea.form-control:focus,
-body.bg-warning textarea.form-control:focus,
-body.bg-secondary textarea.form-control:focus,
-body.bg-info textarea.form-control:focus {
-  background: rgba(36, 52, 71, 0.9);
-  border-color: #539bf5;
-  box-shadow: 0 0 0 3px rgba(83, 155, 245, 0.18);
+body.bg-dark textarea.form-control:focus {
+  background: transparent;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18);
   color: #ffffff;
 }
 
@@ -260,20 +212,14 @@ body.bg-info textarea.form-control:focus {
 }
 
 /* Dark mode cards */
-body.bg-dark .card,
-body.bg-primary .card,
-body.bg-danger .card,
-body.bg-success .card,
-body.bg-warning .card,
-body.bg-secondary .card,
-body.bg-info .card {
+body.bg-dark .card {
   background: var(--bg-dark-secondary);
   border-color: #373e47;
 }
 
 /* Enhanced Stats cards */
 .stats-card {
-  background: #0969da;
+  background: #6366f1;
   color: white;
   border-radius: 8px;
   padding: 20px;
@@ -356,7 +302,7 @@ body.bg-info .card {
 }
 
 .stat-item {
-  background: #0969da;
+  background: #6366f1;
   color: white;
   border-radius: 8px;
   padding: 16px;
@@ -380,8 +326,8 @@ body.bg-info .card {
 /* Feature highlights */
 .feature-highlight {
   padding: 12px;
-  border-left: 3px solid #0969da;
-  background: #f6f8fa;
+  border-left: 3px solid #6366f1;
+  background: #f3f4ff;
   border-radius: 6px;
   margin: 10px 0;
 }
@@ -393,7 +339,7 @@ body.dark-mode textarea.form-control:focus {
 
 /* Simple gradient text */
 .gradient-text {
-  color: #0969da;
+  color: #6366f1;
   font-weight: 600;
 }
 
@@ -425,9 +371,9 @@ body.dark-mode textarea.form-control:focus {
 }
 
 .nav-tabs .nav-link.active {
-  color: #24292f;
-  border-bottom-color: #fd8c73;
-  font-weight: 500;
+  color: #6366f1;
+  border-bottom-color: #6366f1;
+  font-weight: 600;
 }
 
 /* Enhanced Alert animations */
@@ -459,9 +405,9 @@ body.dark-mode textarea.form-control:focus {
 }
 
 .alert-info {
-  background: #ddf4ff;
-  border-color: #0969da;
-  color: #0550ae;
+  background: #eef2ff;
+  border-color: #6366f1;
+  color: #3730a3;
 }
 
 @keyframes slideDown {
@@ -497,13 +443,7 @@ body.dark-mode textarea.form-control:focus {
   background: #b1babf;
 }
 
-body.bg-dark ::-webkit-scrollbar-track,
-body.bg-primary ::-webkit-scrollbar-track,
-body.bg-danger ::-webkit-scrollbar-track,
-body.bg-success ::-webkit-scrollbar-track,
-body.bg-warning ::-webkit-scrollbar-track,
-body.bg-secondary ::-webkit-scrollbar-track,
-body.bg-info ::-webkit-scrollbar-track {
+body.bg-dark ::-webkit-scrollbar-track {
   background: var(--bg-dark);
   border: 2px solid var(--bg-dark);
 }
@@ -519,13 +459,7 @@ body.bg-info ::-webkit-scrollbar-thumb {
   border-color: var(--bg-dark);
 }
 
-body.bg-dark ::-webkit-scrollbar-thumb:hover,
-body.bg-primary ::-webkit-scrollbar-thumb:hover,
-body.bg-danger ::-webkit-scrollbar-thumb:hover,
-body.bg-success ::-webkit-scrollbar-thumb:hover,
-body.bg-warning ::-webkit-scrollbar-thumb:hover,
-body.bg-secondary ::-webkit-scrollbar-thumb:hover,
-body.bg-info ::-webkit-scrollbar-thumb:hover {
+body.bg-dark ::-webkit-scrollbar-thumb:hover {
   background: #484f58;
 }
 
@@ -534,9 +468,9 @@ body.bg-info ::-webkit-scrollbar-thumb:hover {
   display: inline-block;
   width: 20px;
   height: 20px;
-  border: 2px solid rgba(9, 105, 218, 0.2);
+  border: 2px solid rgba(99, 102, 241, 0.2);
   border-radius: 50%;
-  border-top-color: #0969da;
+  border-top-color: #6366f1;
   animation: spin 0.8s linear infinite;
 }
 
@@ -617,44 +551,26 @@ body.bg-info ::-webkit-scrollbar-thumb:hover {
 
 .form-control:focus {
   outline: none;
-  border-color: #0969da;
-  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.12);
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.14);
   background: rgba(255, 255, 255, 1);
 }
 
-body.bg-dark .form-control,
-body.bg-primary .form-control,
-body.bg-danger .form-control,
-body.bg-success .form-control,
-body.bg-warning .form-control,
-body.bg-secondary .form-control,
-body.bg-info .form-control {
-  background: rgba(36, 52, 71, 0.6);
+body.bg-dark .form-control {
+  background: transparent;
   color: #e6edf3;
-  border-color: #373e47;
+  border-color: rgba(99, 102, 241, 0.35);
 }
 
-body.bg-dark .form-control::placeholder,
-body.bg-primary .form-control::placeholder,
-body.bg-danger .form-control::placeholder,
-body.bg-success .form-control::placeholder,
-body.bg-warning .form-control::placeholder,
-body.bg-secondary .form-control::placeholder,
-body.bg-info .form-control::placeholder {
+body.bg-dark .form-control::placeholder {
   color: #8b949e;
   opacity: 1;
 }
 
-body.bg-dark .form-control:focus,
-body.bg-primary .form-control:focus,
-body.bg-danger .form-control:focus,
-body.bg-success .form-control:focus,
-body.bg-warning .form-control:focus,
-body.bg-secondary .form-control:focus,
-body.bg-info .form-control:focus {
-  background: rgba(36, 52, 71, 0.9);
-  border-color: #539bf5;
-  box-shadow: 0 0 0 3px rgba(83, 155, 245, 0.18);
+body.bg-dark .form-control:focus {
+  background: transparent;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18);
   color: #e6edf3;
 }
 
@@ -673,8 +589,8 @@ body.bg-info .form-control:focus {
 }
 
 .badge.bg-primary {
-  background: #0969da !important;
-  border-color: #0860ca !important;
+  background: #6366f1 !important;
+  border-color: #4f46e5 !important;
 }
 
 .badge.bg-warning {
@@ -683,8 +599,8 @@ body.bg-info .form-control:focus {
 }
 
 .badge.bg-info {
-  background: #0969da !important;
-  border-color: #0860ca !important;
+  background: #818cf8 !important;
+  border-color: #6366f1 !important;
 }
 
 /* Progress bar */
@@ -697,7 +613,7 @@ body.bg-info .form-control:focus {
 }
 
 .progress-bar {
-  background: #0969da;
+  background: #6366f1;
   border-radius: 6px;
   font-weight: 500;
   display: flex;
@@ -707,24 +623,12 @@ body.bg-info .form-control:focus {
   font-size: 0.875rem;
 }
 
-body.bg-dark .progress,
-body.bg-primary .progress,
-body.bg-danger .progress,
-body.bg-success .progress,
-body.bg-warning .progress,
-body.bg-secondary .progress,
-body.bg-info .progress {
+body.bg-dark .progress {
   background: var(--bg-dark-secondary);
   border-color: #373e47;
 }
 
-body.bg-dark .progress-bar,
-body.bg-primary .progress-bar,
-body.bg-danger .progress-bar,
-body.bg-success .progress-bar,
-body.bg-warning .progress-bar,
-body.bg-secondary .progress-bar,
-body.bg-info .progress-bar {
+body.bg-dark .progress-bar {
   background: #539bf5;
 }
 
@@ -759,24 +663,12 @@ body.bg-info .progress-bar {
   border-color: #0969da !important;
 }
 
-body.bg-dark .border.rounded,
-body.bg-primary .border.rounded,
-body.bg-danger .border.rounded,
-body.bg-success .border.rounded,
-body.bg-warning .border.rounded,
-body.bg-secondary .border.rounded,
-body.bg-info .border.rounded {
+body.bg-dark .border.rounded {
   border-color: #373e47 !important;
   background: var(--bg-dark-secondary);
 }
 
-body.bg-dark .border.rounded:hover,
-body.bg-primary .border.rounded:hover,
-body.bg-danger .border.rounded:hover,
-body.bg-success .border.rounded:hover,
-body.bg-warning .border.rounded:hover,
-body.bg-secondary .border.rounded:hover,
-body.bg-info .border.rounded:hover {
+body.bg-dark .border.rounded:hover {
   border-color: #539bf5 !important;
 }
 
@@ -806,15 +698,9 @@ body.bg-info .border.rounded:hover {
   border: 1px solid #d0d7de;
 }
 
-body.bg-dark .advanced-features,
-body.bg-primary .advanced-features,
-body.bg-danger .advanced-features,
-body.bg-success .advanced-features,
-body.bg-warning .advanced-features,
-body.bg-secondary .advanced-features,
-body.bg-info .advanced-features {
-  background: rgba(36, 52, 71, 0.4);
-  border-color: #373e47;
+body.bg-dark .advanced-features {
+  background: rgba(99, 102, 241, 0.05);
+  border-color: rgba(99, 102, 241, 0.2);
 }
 
 /* Keyboard shortcut hint */
@@ -831,13 +717,7 @@ body.bg-info .advanced-features {
   font-weight: 500;
 }
 
-body.bg-dark .shortcut-hint,
-body.bg-primary .shortcut-hint,
-body.bg-danger .shortcut-hint,
-body.bg-success .shortcut-hint,
-body.bg-warning .shortcut-hint,
-body.bg-secondary .shortcut-hint,
-body.bg-info .shortcut-hint {
+body.bg-dark .shortcut-hint {
   background: var(--bg-dark-secondary);
   border-color: #373e47;
   color: var(--text-dark);
@@ -850,13 +730,13 @@ body.bg-info .shortcut-hint {
 
 /* Button outline variants */
 .btn-outline-primary {
-  border: 1px solid #0969da;
-  color: #0969da;
+  border: 1px solid #6366f1;
+  color: #6366f1;
   background: transparent;
 }
 
 .btn-outline-primary:hover {
-  background: #0969da;
+  background: #6366f1;
   color: white;
 }
 
