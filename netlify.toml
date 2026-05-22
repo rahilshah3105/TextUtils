@@ -12,4 +12,4 @@
 
 [build.environment]
   # Increase Node.js memory limit for build
-  NODE_VERSION = "18"
+  NODE_VERSION = "22"
