@@ -197,7 +197,7 @@ export default function TextComparison(props) {
                       borderRadius: '8px'
                     }}>
                       {comparisonResult.commonWords.map((word, index) => (
-                        <span key={index} className="badge bg-success me-1 mb-1">{word}</span>
+                        <span key={index} className="badge bg-primary me-1 mb-1">{word}</span>
                       ))}
                     </div>
                   </div>
@@ -227,7 +227,7 @@ export default function TextComparison(props) {
                       borderRadius: '8px'
                     }}>
                       {comparisonResult.uniqueToText2.map((word, index) => (
-                        <span key={index} className="badge bg-warning me-1 mb-1">{word}</span>
+                        <span key={index} className="badge bg-primary me-1 mb-1">{word}</span>
                       ))}
                     </div>
                   </div>

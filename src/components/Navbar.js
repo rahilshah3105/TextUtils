@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { FiMoon, FiSun } from 'react-icons/fi';
 
 export default function Navbar({ title = 'Set title here', mode = 'light', toggleMode = () => {} }) {
     const [showHelp, setShowHelp] = useState(false);
-    const props = { title, mode, toggleMode };
+    const props = { title, mode };
+    const isDarkMode = props.mode === 'dark';
 
     const shortcuts = [
         { keys: 'Ctrl + S', action: 'Auto-save document' },
@@ -53,25 +55,19 @@ export default function Navbar({ title = 'Set title here', mode = 'light', toggl
                             Help
                         </button>
 
-                        {/* Dark Mode Toggle */}
-                        <div className="form-check form-switch mb-0 d-flex align-items-center gap-2">
-                            <input
-                                className="form-check-input"
-                                onClick={() => { props.toggleMode(props.mode === 'light' ? 'dark' : 'light') }}
-                                type="checkbox"
-                                id="flexSwitchCheckChecked"
-                                checked={props.mode === 'dark'}
-                                onChange={() => {}}
-                                style={{ cursor: 'pointer', width: '2.5em', height: '1.3em' }}
-                            />
-                            <label
-                                className="form-check-label"
-                                htmlFor="flexSwitchCheckChecked"
-                                style={{ color: 'rgba(255,255,255,0.85)', cursor: 'pointer', fontSize: '0.9rem', userSelect: 'none' }}
-                            >
-                                {props.mode === 'dark' ? 'Dark' : 'Light'}
-                            </label>
-                        </div>
+                        <button
+                            type="button"
+                            className="theme-toggle-button"
+                            aria-pressed={isDarkMode}
+                            onClick={() => toggleMode(isDarkMode ? 'light' : 'dark')}
+                        >
+                            <span className="theme-toggle-button__icon">
+                                {isDarkMode ? <FiSun /> : <FiMoon />}
+                            </span>
+                            {/* <span className="theme-toggle-button__text">
+                                {isDarkMode ? 'Light mode' : 'Dark mode'}
+                            </span> */}
+                        </button>
 
                     </div>
                 </div>
@@ -134,7 +130,7 @@ export default function Navbar({ title = 'Set title here', mode = 'light', toggl
                                     <li><strong style={{ color: props.mode === 'dark' ? '#a5b4fc' : '#6366f1' }}>Utility Tools:</strong> JSON formatter, Base64 encoder, and more</li>
                                     <li><strong style={{ color: props.mode === 'dark' ? '#a5b4fc' : '#6366f1' }}>Auto-save:</strong> Your work is automatically saved every 2 seconds</li>
                                     <li><strong style={{ color: props.mode === 'dark' ? '#a5b4fc' : '#6366f1' }}>Export:</strong> Download as TXT, HTML, or print your document</li>
-                                    <li><strong style={{ color: props.mode === 'dark' ? '#a5b4fc' : '#6366f1' }}>Dark / Light Mode:</strong> Toggle anytime with the switch in the navbar</li>
+                                    <li><strong style={{ color: props.mode === 'dark' ? '#a5b4fc' : '#6366f1' }}>Dark / Light Mode:</strong> Toggle anytime with the moon / sun button in the main toolbar</li>
                                 </ul>
                             </div>
                             <div className="modal-footer">

@@ -19,6 +19,11 @@ function App() {
     localStorage.setItem('activeTab', activeTab);
   }, [mode, activeTab]);
 
+  useEffect(() => {
+    document.body.classList.remove('bg-light', 'bg-dark');
+    document.body.classList.add(`bg-${mode}`);
+  }, [mode]);
+
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -39,14 +44,11 @@ function App() {
 
   const showAlert = (message, type) => {
     setAlert({ msg: message, type: type });
-    setTimeout(() => { setAlert(null); }, 2000);
   };
 
   const toggleMode = (cls) => {
-    document.body.classList.remove('bg-light', 'bg-dark');
     const newMode = cls === 'light' ? 'light' : 'dark';
     setMode(newMode);
-    document.body.classList.add('bg-' + newMode);
     showAlert("Mode has been changed...", "success");
   };
 
@@ -68,12 +70,15 @@ function App() {
   return (
     <>
       <Navbar title="Worded" mode={mode} toggleMode={toggleMode} />
-      <Alert alert={alert} />
-      <div className="container my-3">
+      <Alert alert={alert} onDismiss={() => setAlert(null)} />
+      <div className="container my-3 page-container">
 
         {/* Tab Navigation */}
-        <div className="mb-4">
-          <ul className="nav nav-tabs" style={{ borderBottom: `2px solid ${mode === 'dark' ? '#2d3748' : '#e2e5fc'}` }}>
+        <div className="mb-4 py-4 main-toolbar d-flex flex-wrap justify-content-between align-items-center gap-3">
+          <ul
+            className="nav nav-tabs flex-grow-1"
+            style={{ borderBottom: `2px solid ${mode === 'dark' ? '#2d3748' : '#e2e5fc'}` }}
+          >
             {[
               { key: 'textForm', label: 'Text Editor' },
               { key: 'textComparison', label: 'Text Comparison' },
@@ -81,17 +86,16 @@ function App() {
             ].map(tab => (
               <li className="nav-item" key={tab.key}>
                 <button
-                  className="nav-link border-0"
+                  className={`nav-link modern-tab-link border-0 ${activeTab === tab.key ? 'active' : ''}`}
                   onClick={() => setActiveTab(tab.key)}
+                  aria-current={activeTab === tab.key ? 'page' : undefined}
                   style={{
                     color: activeTab === tab.key ? tabAccent : (mode === 'dark' ? '#8b949e' : '#6b7280'),
                     fontWeight: activeTab === tab.key ? '600' : '400',
-                    borderBottom: activeTab === tab.key ? `2px solid ${tabAccent}` : '2px solid transparent',
                     background: 'transparent',
                     borderRadius: 0,
                     padding: '10px 18px',
-                    transition: 'all 0.2s ease',
-                    marginBottom: '-2px'
+                    transition: 'color 0.2s ease, transform 0.2s ease'
                   }}
                 >
                   {tab.label}
@@ -99,6 +103,7 @@ function App() {
               </li>
             ))}
           </ul>
+
         </div>
 
         {/* Tab Content */}

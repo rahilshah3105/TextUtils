@@ -351,7 +351,7 @@ export default function UtilityTools(props) {
       {/* Action Buttons */}
       <div className="mt-3">
         <button
-          className="btn btn-success mx-2"
+          className="btn btn-primary mx-2"
           onClick={executeTool}
           disabled={selectedTool !== "uuid" && !inputText}
         >

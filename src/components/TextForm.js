@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { FiInfo } from "react-icons/fi";
 
 export default function TextForm(props) {
   const [text, setText] = useState("");
@@ -7,13 +8,125 @@ export default function TextForm(props) {
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [textAlignment, setTextAlignment] = useState("left");
   const [savedDrafts, setSavedDrafts] = useState([]);
+  const [activeTextAction, setActiveTextAction] = useState(null);
+  const actionSnapshotRef = useRef(null);
+
+  const splitTextIntoWords = (value) =>
+    value
+      .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+      .replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2")
+      .replace(/[^A-Za-z0-9]+/g, " ")
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+  const toCapitalizedWords = (words) =>
+    words.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+
+  const applyTextAction = (actionKey, transformFn) => {
+    if (activeTextAction === actionKey && actionSnapshotRef.current?.actionKey === actionKey) {
+      setText(actionSnapshotRef.current.previousText);
+      setActiveTextAction(null);
+      actionSnapshotRef.current = null;
+      return true;
+    }
+
+    actionSnapshotRef.current = {
+      actionKey,
+      previousText: text
+    };
+
+    setText(transformFn(text));
+    setActiveTextAction(actionKey);
+    return false;
+  };
+
+  const handleTextCaseButton = (caseType) => {
+    const didUndo = applyTextAction(`case:${caseType}`, (currentText) => {
+      const words = splitTextIntoWords(currentText);
+
+      if (words.length === 0) {
+        props.showAlert("Please enter some text first", "warning");
+        return currentText;
+      }
+
+      const lowerWords = words.map(word => word.toLowerCase());
+
+      switch (caseType) {
+        case "sentence":
+          return lowerWords.length > 0
+            ? [lowerWords[0].charAt(0).toUpperCase() + lowerWords[0].slice(1), ...lowerWords.slice(1)].join(" ")
+            : currentText;
+        case "capitalized":
+          return toCapitalizedWords(words).join(" ");
+        case "pascal":
+          return toCapitalizedWords(words).join("");
+        case "camel":
+          return lowerWords[0] + toCapitalizedWords(words.slice(1)).join("");
+        case "snake":
+          return lowerWords.join("_");
+        case "constant":
+          return words.map(word => word.toUpperCase()).join("_");
+        case "kebab":
+          return lowerWords.join("-");
+        case "dot":
+          return lowerWords.join(".");
+        case "path":
+          return lowerWords.join("/");
+        default:
+          return currentText;
+      }
+    });
+
+    props.showAlert(didUndo ? `${caseType} case cleared` : `${caseType} case applied`, "success");
+  };
+
+  const handleUppercase = () => {
+    const didUndo = applyTextAction("uppercase", (currentText) => currentText.toUpperCase());
+    props.showAlert(didUndo ? "Uppercase selection cleared" : "Text converted to UPPERCASE", "success");
+  };
+
+  const handleLowercase = () => {
+    const didUndo = applyTextAction("lowercase", (currentText) => currentText.toLowerCase());
+    props.showAlert(didUndo ? "Lowercase selection cleared" : "Text converted to lowercase", "success");
+  };
+
+  const handleCapitalized = () => {
+    const didUndo = applyTextAction("capitalized-basic", (currentText) =>
+      currentText.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
+    );
+    props.showAlert(didUndo ? "Capitalized Case selection cleared" : "Text converted to Capitalized Case", "success");
+  };
+
+  const handleSentenceCase = () => {
+    const didUndo = applyTextAction("sentence-basic", (currentText) => {
+      const lower = currentText.toLowerCase();
+      return lower.charAt(0).toUpperCase() + lower.slice(1);
+    });
+    props.showAlert(didUndo ? "Sentence Case selection cleared" : "Text converted to Sentence Case", "success");
+  };
+
+  const handleAlternating = () => {
+    const didUndo = applyTextAction("alternating", (currentText) => {
+      let newText = "";
+      for (let i = 0; i < currentText.length; i++) {
+        newText += i % 2 === 0 ? currentText[i].toLowerCase() : currentText[i].toUpperCase();
+      }
+      return newText;
+    });
+    props.showAlert(didUndo ? "Alternating Case selection cleared" : "Text converted to Alternating Case", "success");
+  };
+
+  const handleReverse = () => {
+    const didUndo = applyTextAction("reverse", (currentText) => currentText.split('').reverse().join(''));
+    props.showAlert(didUndo ? "Reverse selection cleared" : "Text reversed", "success");
+  };
 
   // Load drafts from localStorage on mount
   useEffect(() => {
     const drafts = JSON.parse(localStorage.getItem('textDrafts') || '[]');
     setSavedDrafts(drafts);
-    
-    // Load last saved text if exists
+
     const lastText = localStorage.getItem('lastText');
     if (lastText) {
       setText(lastText);
@@ -26,59 +139,21 @@ export default function TextForm(props) {
       if (text) {
         localStorage.setItem('lastText', text);
       }
-    }, 2000); // Auto-save after 2 seconds of inactivity
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, [text]);
 
   const handleOnChange = (event) => {
     setText(event.target.value);
-  };
-
-  const handleUpClick = () => {
-    let newText = text.toUpperCase();
-    setText(newText);
-    props.showAlert("Text Converted to Uppercase", "success");
-  };
-
-  const handleLowClick = () => {
-    let newText = text.toLowerCase();
-    setText(newText);
-    props.showAlert("Text Converted to Lowercase", "success");
-  };
-
-  const handleCapitalize = () => {
-    let newText = text.split(" ");
-    for (let i = 0; i < newText.length; i++) {
-      newText[i] = newText[i].charAt(0).toUpperCase() + newText[i].slice(1);
-    }
-    setText(newText.join(" "));
-    props.showAlert("Text Converted to Capitalize", "success");
-  };
-
-  const handleTitleCase = () => {
-    let newText = text.toLowerCase().split(" ");
-    for (let i = 0; i < newText.length; i++) {
-      if (newText[i].length > 0) {
-        newText[i] = newText[i].charAt(0).toUpperCase() + newText[i].slice(1);
-      }
-    }
-    setText(newText.join(" "));
-    props.showAlert("Text Converted to Title Case", "success");
-  };
-
-  const handleAlternatingCase = () => {
-    let newText = "";
-    for (let i = 0; i < text.length; i++) {
-      newText += i % 2 === 0 ? text[i].toLowerCase() : text[i].toUpperCase();
-    }
-    setText(newText);
-    props.showAlert("Text Converted to Alternating Case", "success");
+    setActiveTextAction(null);
+    actionSnapshotRef.current = null;
   };
 
   const handleClearClick = () => {
-    let newText = "";
-    setText(newText);
+    setText("");
+    setActiveTextAction(null);
+    actionSnapshotRef.current = null;
     props.showAlert("Text Cleared", "success");
   };
 
@@ -88,14 +163,16 @@ export default function TextForm(props) {
   };
 
   const handleExtarSpaces = () => {
-    let newText = text.split(/[ ] + /);
+    const newText = text.split(/[ ] + /);
     setText(newText.join(" "));
+    setActiveTextAction(null);
+    actionSnapshotRef.current = null;
     props.showAlert("Extra spaces removed from text", "success");
   };
 
   const handleFindReplace = () => {
     if (findText && replaceText) {
-      let newText = text.replace(new RegExp(findText, 'g'), replaceText);
+      const newText = text.replace(new RegExp(findText, 'g'), replaceText);
       setText(newText);
       props.showAlert("Find and Replace completed", "success");
     } else {
@@ -104,9 +181,7 @@ export default function TextForm(props) {
   };
 
   const handleReverseText = () => {
-    let newText = text.split('').reverse().join('');
-    setText(newText);
-    props.showAlert("Text Reversed", "success");
+    handleReverse();
   };
 
   const handleEncryptText = () => {
@@ -313,6 +388,155 @@ export default function TextForm(props) {
   const charFreq = getCharacterFrequency();
   const readability = getReadabilityScore();
 
+  const summaryCardStyle = {
+    background: props.mode === "dark"
+      ? "linear-gradient(135deg, #1a2332 0%, #243447 100%)"
+      : "linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)",
+    color: "#ffffff",
+    border: `1px solid ${props.mode === "dark" ? "rgba(99, 102, 241, 0.22)" : "rgba(79, 70, 229, 0.22)"}`,
+    boxShadow: props.mode === "dark"
+      ? "0 10px 24px rgba(15, 23, 42, 0.28)"
+      : "0 10px 24px rgba(79, 70, 229, 0.14)"
+  };
+
+  const summaryValueStyle = {
+    color: "#ffffff"
+  };
+
+  const summaryLabelStyle = {
+    color: props.mode === "dark" ? "rgba(255,255,255,0.84)" : "rgba(255,255,255,0.9)"
+  };
+
+  const textCaseTools = [
+    {
+      label: "Sentence case",
+      caseType: "sentence",
+      description: "Capitalizes the first word and keeps the rest lowercase.",
+      example: "Hello world from textutils"
+    },
+    {
+      label: "Capitalized Case",
+      caseType: "capitalized",
+      description: "Capitalizes the first letter of every word.",
+      example: "Hello World From Textutils"
+    },
+    {
+      label: "PascalCase",
+      caseType: "pascal",
+      description: "Removes separators and capitalizes every word.",
+      example: "HelloWorldFromTextutils"
+    },
+    {
+      label: "camelCase",
+      caseType: "camel",
+      description: "Lowercases the first word and capitalizes the rest.",
+      example: "helloWorldFromTextutils"
+    },
+    {
+      label: "snake_case",
+      caseType: "snake",
+      description: "Joins lowercase words with underscores.",
+      example: "hello_world_from_textutils"
+    },
+    {
+      label: "CONSTANT_CASE",
+      caseType: "constant",
+      description: "Joins uppercase words with underscores.",
+      example: "HELLO_WORLD_FROM_TEXTUTILS"
+    },
+    {
+      label: "kebab-case",
+      caseType: "kebab",
+      description: "Joins lowercase words with hyphens.",
+      example: "hello-world-from-textutils"
+    },
+    {
+      label: "dot.case",
+      caseType: "dot",
+      description: "Joins lowercase words with dots.",
+      example: "hello.world.from.textutils"
+    },
+    {
+      label: "path/case",
+      caseType: "path",
+      description: "Joins lowercase words with slashes.",
+      example: "hello/world/from/textutils"
+    },
+  ];
+
+  const advancedActionButtons = [
+    {
+      label: "Remove Extra Spaces",
+      title: "Removes repeated spaces and keeps a single space between words.",
+      onClick: handleExtarSpaces
+    },
+    {
+      label: "Copy Text",
+      title: "Copies the current text to your clipboard.",
+      onClick: handleCopyText
+    },
+    {
+      label: "Encrypt (ROT13)",
+      title: "Applies ROT13, a simple letter substitution cipher.",
+      onClick: handleEncryptText
+    },
+    {
+      label: "Decrypt (ROT13)",
+      title: "ROT13 is symmetric, so this reverses the encryption.",
+      onClick: handleDecryptText
+    },
+    {
+      label: "URL Encode",
+      title: "Converts the text into a URL-safe format.",
+      onClick: handleURLEncode
+    },
+    {
+      label: "URL Decode",
+      title: "Restores URL-encoded text back to normal text.",
+      onClick: handleURLDecode
+    },
+    {
+      label: "Text to Speech",
+      title: "Reads the current text aloud using your browser.",
+      onClick: handleTextToSpeech
+    },
+  ];
+
+  const HelpableButton = ({
+    label,
+    helpText,
+    onClick,
+    disabled = false,
+    buttonClassName = "btn-primary",
+    compact = false,
+  }) => {
+    return (
+      <div className={`help-button-shell ${compact ? "help-button-shell--compact" : "help-button-shell--block"}`}>
+        <button
+          type="button"
+          disabled={disabled}
+          className={`btn ${buttonClassName} help-button-shell__action`}
+          onClick={onClick}
+        >
+          {label}
+        </button>
+        <button
+          type="button"
+          className="help-button-shell__info"
+          aria-label={`Help for ${label}`}
+          tabIndex={-1}
+          onMouseDown={(event) => event.preventDefault()}
+        >
+          <FiInfo aria-hidden="true" />
+        </button>
+        <div className="help-button-shell__popover" role="status" aria-live="polite">
+          <div className="help-button-shell__popover-title">{label}</div>
+          <div className="help-button-shell__popover-body">{helpText}</div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       <div
@@ -345,131 +569,122 @@ export default function TextForm(props) {
         {/* Basic Text Operations */}
         <div className="mb-3">
           <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Basic Operations</h5>
+          <div className="action-buttons-row">
           <button
             disabled={text.length === 0}
-            className="btn btn-primary change mx-1 my-1"
-            onClick={handleUpClick}
+            className={`btn change mx-1 my-1 feature-toggle-button ${activeTextAction === 'uppercase' ? 'is-active' : ''}`}
+            onClick={handleUppercase}
           >
             UPPERCASE
           </button>
           <button
             disabled={text.length === 0}
-            className="btn btn-primary change mx-1 my-1"
-            onClick={handleLowClick}
+            className={`btn change mx-1 my-1 feature-toggle-button ${activeTextAction === 'lowercase' ? 'is-active' : ''}`}
+            onClick={handleLowercase}
           >
             lowercase
           </button>
           <button
             disabled={text.length === 0}
-            className="btn btn-primary change mx-1 my-1"
-            onClick={handleCapitalize}
+            className={`btn change mx-1 my-1 feature-toggle-button ${activeTextAction === 'capitalized-basic' ? 'is-active' : ''}`}
+            onClick={handleCapitalized}
           >
-            Capitalize Each Word
+            Capitalized Case
           </button>
           <button
             disabled={text.length === 0}
-            className="btn btn-primary change mx-1 my-1"
-            onClick={handleTitleCase}
+            className={`btn change mx-1 my-1 feature-toggle-button ${activeTextAction === 'sentence-basic' ? 'is-active' : ''}`}
+            onClick={handleSentenceCase}
           >
-            Title Case
+            Sentence Case
           </button>
           <button
             disabled={text.length === 0}
-            className="btn btn-primary change mx-1 my-1"
-            onClick={handleAlternatingCase}
+            className={`btn change mx-1 my-1 feature-toggle-button ${activeTextAction === 'alternating' ? 'is-active' : ''}`}
+            onClick={handleAlternating}
           >
             Alternating Case
           </button>
           <button
             disabled={text.length === 0}
-            className="btn btn-primary change mx-1 my-1"
+            className={`btn change mx-1 my-1 feature-toggle-button ${activeTextAction === 'reverse' ? 'is-active' : ''}`}
             onClick={handleReverseText}
           >
             Reverse Text
           </button>
+          </div>
+        </div>
+
+        {/* Text Case Conversions */}
+        <div className="mb-3 case-control-panel">
+          <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Text Case Conversions</h5>
+          {/* {activeTextAction && (
+            <div className="selected-action-pill mb-3">
+              Selected action is active. Click the same button again to undo it.
+            </div>
+          )} */}
+          <div className="row g-2">
+            {textCaseTools.map((tool) => (
+              <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={tool.caseType}>
+                <HelpableButton
+                  label={tool.label}
+                  helpText={`${tool.description} Example: ${tool.example}`}
+                  disabled={text.length === 0}
+                  buttonClassName={`feature-toggle-button feature-toggle-button--outline text-case-button ${activeTextAction === `case:${tool.caseType}` ? 'is-active' : ''}`}
+                  onClick={() => handleTextCaseButton(tool.caseType)}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Text Alignment */}
         <div className="mb-3">
           <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Text Alignment</h5>
+          <div className="action-buttons-row">
           <button
-            className={`btn ${textAlignment === 'left' ? 'btn-success' : 'btn-outline-success'} mx-1 my-1`}
+            className={`btn ${textAlignment === 'left' ? 'btn-primary' : 'btn-outline-primary'} mx-1 my-1`}
             onClick={() => setTextAlignment('left')}
           >
             Left
           </button>
           <button
-            className={`btn ${textAlignment === 'center' ? 'btn-success' : 'btn-outline-success'} mx-1 my-1`}
+            className={`btn ${textAlignment === 'center' ? 'btn-primary' : 'btn-outline-primary'} mx-1 my-1`}
             onClick={() => setTextAlignment('center')}
           >
             Center
           </button>
           <button
-            className={`btn ${textAlignment === 'right' ? 'btn-success' : 'btn-outline-success'} mx-1 my-1`}
+            className={`btn ${textAlignment === 'right' ? 'btn-primary' : 'btn-outline-primary'} mx-1 my-1`}
             onClick={() => setTextAlignment('right')}
           >
             Right
           </button>
           <button
-            className={`btn ${textAlignment === 'justify' ? 'btn-success' : 'btn-outline-success'} mx-1 my-1`}
+            className={`btn ${textAlignment === 'justify' ? 'btn-primary' : 'btn-outline-primary'} mx-1 my-1`}
             onClick={() => setTextAlignment('justify')}
           >
             Justify
           </button>
+          </div>
         </div>
 
         {/* Advanced Operations */}
         <div className="mb-3">
           <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Advanced Operations</h5>
-          <button
-            disabled={text.length === 0}
-            className="btn btn-warning change mx-1 my-1"
-            onClick={handleExtarSpaces}
-          >
-            Remove Extra Spaces
-          </button>
-          <button
-            disabled={text.length === 0}
-            className="btn btn-warning change mx-1 my-1"
-            onClick={handleCopyText}
-          >
-            Copy Text
-          </button>
-          <button
-            disabled={text.length === 0}
-            className="btn btn-warning change mx-1 my-1"
-            onClick={handleEncryptText}
-          >
-            Encrypt (ROT13)
-          </button>
-          <button
-            disabled={text.length === 0}
-            className="btn btn-warning change mx-1 my-1"
-            onClick={handleDecryptText}
-          >
-            Decrypt (ROT13)
-          </button>
-          <button
-            disabled={text.length === 0}
-            className="btn btn-warning change mx-1 my-1"
-            onClick={handleURLEncode}
-          >
-            URL Encode
-          </button>
-          <button
-            disabled={text.length === 0}
-            className="btn btn-warning change mx-1 my-1"
-            onClick={handleURLDecode}
-          >
-            URL Decode
-          </button>
-          <button
-            disabled={text.length === 0}
-            className="btn btn-warning change mx-1 my-1"
-            onClick={handleTextToSpeech}
-          >
-            Text to Speech
-          </button>
+          <div className="action-buttons-row action-buttons-row--wrap">
+          {advancedActionButtons.map((button) => (
+            <HelpableButton
+              key={button.label}
+              label={button.label}
+              helpText={button.title}
+              disabled={text.length === 0}
+              buttonClassName="btn-primary change mx-1 my-1"
+              compact
+              onClick={button.onClick}
+            />
+          ))}
+          </div>
         </div>
 
         {/* Find and Replace */}
@@ -518,6 +733,7 @@ export default function TextForm(props) {
         {/* Generators */}
         <div className="mb-3">
           <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Generators</h5>
+          <div className="action-buttons-row">
           <button
             className="btn btn-secondary mx-1 my-1"
             onClick={handleGenerateLoremIpsum}
@@ -536,14 +752,16 @@ export default function TextForm(props) {
           >
             Clear Text
           </button>
+          </div>
         </div>
 
         {/* Save/Export Options */}
         <div className="mb-3">
           <h5 style={{ color: props.mode === "dark" ? "#c9d1d9" : "#24292f" }}>Save & Export</h5>
+          <div className="action-buttons-row">
           <button
             disabled={text.length === 0}
-            className="btn btn-success mx-1 my-1"
+            className="btn btn-primary mx-1 my-1"
             onClick={handleSaveDraft}
           >
             Save Draft
@@ -576,6 +794,7 @@ export default function TextForm(props) {
           >
             Email
           </button>
+          </div>
         </div>
 
         {/* Saved Drafts */}
@@ -649,7 +868,7 @@ export default function TextForm(props) {
                   {charFreq.map(([char, count], index) => (
                     <div key={index} className="d-flex justify-content-between">
                       <span>'{char}':</span>
-                      <span className="badge bg-success">{count}</span>
+                      <span className="badge bg-primary">{count}</span>
                     </div>
                   ))}
                 </div>
@@ -668,29 +887,29 @@ export default function TextForm(props) {
         
         {/* Statistics Dashboard */}
         <div className="stats-dashboard">
-          <div className="stat-item">
-            <h3 style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>{stats.words}</h3>
-            <p>Words</p>
+          <div className="stat-item" style={summaryCardStyle}>
+            <h3 style={summaryValueStyle}>{stats.words}</h3>
+            <p style={summaryLabelStyle}>Words</p>
           </div>
-          <div className="stat-item">
-            <h3 style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>{stats.characters}</h3>
-            <p>Characters</p>
+          <div className="stat-item" style={summaryCardStyle}>
+            <h3 style={summaryValueStyle}>{stats.characters}</h3>
+            <p style={summaryLabelStyle}>Characters</p>
           </div>
-          <div className="stat-item">
-            <h3 style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>{stats.sentences}</h3>
-            <p>Sentences</p>
+          <div className="stat-item" style={summaryCardStyle}>
+            <h3 style={summaryValueStyle}>{stats.sentences}</h3>
+            <p style={summaryLabelStyle}>Sentences</p>
           </div>
-          <div className="stat-item">
-            <h3 style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>{stats.paragraphs}</h3>
-            <p>Paragraphs</p>
+          <div className="stat-item" style={summaryCardStyle}>
+            <h3 style={summaryValueStyle}>{stats.paragraphs}</h3>
+            <p style={summaryLabelStyle}>Paragraphs</p>
           </div>
-          <div className="stat-item">
-            <h3 style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>{Math.ceil(stats.words / 200)} min</h3>
-            <p>Reading Time</p>
+          <div className="stat-item" style={summaryCardStyle}>
+            <h3 style={summaryValueStyle}>{Math.ceil(stats.words / 200)} min</h3>
+            <p style={summaryLabelStyle}>Reading Time</p>
           </div>
-          <div className="stat-item">
-            <h3 style={{ color: props.mode === "dark" ? "#ffffff" : "#1f2328" }}>{Math.ceil(stats.words / 130)} min</h3>
-            <p>Speaking Time</p>
+          <div className="stat-item" style={summaryCardStyle}>
+            <h3 style={summaryValueStyle}>{Math.ceil(stats.words / 130)} min</h3>
+            <p style={summaryLabelStyle}>Speaking Time</p>
           </div>
         </div>
 

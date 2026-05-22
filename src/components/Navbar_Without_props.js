@@ -44,10 +44,10 @@ export default function Navbar_Without_props({title, mode, toggleMode}) {
                                         <div className="bg-danger rounded mx-1 my-1" onClick={() => { toggleMode('danger') }} style={styleDiv}>Red</div>
                                     </li>
                                     <li style={color}>
-                                        <div className="bg-success rounded mx-1 my-1" onClick={() => { toggleMode('success') }} style={styleDiv}>Green</div>
+                                        <div className="bg-primary rounded mx-1 my-1" onClick={() => { toggleMode('primary') }} style={styleDiv}>Blue (alt)</div>
                                     </li>
                                     <li style={color}>
-                                        <div className="bg-warning rounded mx-1 my-1" onClick={() => { toggleMode('warning') }} style={styleDiv}>Yellow</div>
+                                        <div className="bg-primary rounded mx-1 my-1" onClick={() => { toggleMode('warning') }} style={styleDiv}>Blue Accent</div>
                                     </li>
                                     <li style={color}>
                                         <div className="bg-secondary rounded mx-1 my-1" onClick={() => { toggleMode('secondary') }} style={styleDiv}>Grey</div>
@@ -72,7 +72,7 @@ export default function Navbar_Without_props({title, mode, toggleMode}) {
 
                         <form className="d-flex mx-4 w-25" role="search">
                             <input className="form-control me-3" id='search' name='search' type="search" placeholder="Search Here..." aria-label="Search" style={{ backgroundColor: mode === 'dark' ? 'black' : 'white', color: mode === 'dark' ? 'white' : 'black' }} />
-                            <button className="btn btn-outline-success" type="submit" style={{ backgroundColor: mode === 'dark' ? 'black' : 'white', color: mode === 'dark' ? 'white' : 'black' }}>Search</button>
+                            <button className="btn btn-outline-primary" type="submit" style={{ backgroundColor: mode === 'dark' ? 'black' : 'white', color: mode === 'dark' ? 'white' : 'black' }}>Search</button>
                         </form>
 
                         {/* <div className={`form-check form-switch text-${mode === 'light' ? 'dark' : 'light'}`}>
