@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import AdBanner from './AdBanner';
 
 export default function TextComparison(props) {
   const [text1, setText1] = useState("");
@@ -54,6 +55,9 @@ export default function TextComparison(props) {
     setComparisonResult(null);
     props.showAlert("Texts cleared", "success");
   };
+
+  const adClient = props.adClient || '';
+  const adSlot = props.adSlot || '';
 
   return (
     <div
@@ -130,6 +134,15 @@ export default function TextComparison(props) {
           </small>
         </div>
       </div>
+
+        <AdBanner
+          client={adClient}
+          slot={adSlot}
+          mode={props.mode}
+          ariaLabel="Sponsored placement inside the comparison tool"
+          className="my-4"
+          minHeight="280px"
+        />
       
       {comparisonResult && (
         <div className="mt-4">

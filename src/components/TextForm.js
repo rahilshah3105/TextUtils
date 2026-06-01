@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FiInfo } from "react-icons/fi";
+import AdBanner from './AdBanner';
 
 export default function TextForm(props) {
   const [text, setText] = useState("");
@@ -502,6 +503,9 @@ export default function TextForm(props) {
     },
   ];
 
+  const adClient = props.adClient || '';
+  const adSlot = props.adSlot || '';
+
   const HelpableButton = ({
     label,
     helpText,
@@ -565,6 +569,15 @@ export default function TextForm(props) {
             placeholder="Enter Text Here"
           ></textarea>
         </div>
+
+        <AdBanner
+          client={adClient}
+          slot={adSlot}
+          mode={props.mode}
+          ariaLabel="Sponsored placement inside the text editor"
+          className="mb-4"
+          minHeight="280px"
+        />
 
         {/* Basic Text Operations */}
         <div className="mb-3">

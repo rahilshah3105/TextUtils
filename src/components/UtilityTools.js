@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import AdBanner from './AdBanner';
 
 export default function UtilityTools(props) {
   const [inputText, setInputText] = useState("");
@@ -193,6 +194,9 @@ export default function UtilityTools(props) {
     }
   };
 
+  const adClient = props.adClient || '';
+  const adSlot = props.adSlot || '';
+
   return (
     <div
       className="container my-4"
@@ -302,6 +306,15 @@ export default function UtilityTools(props) {
           </div>
         </div>
       </div>
+
+      <AdBanner
+        client={adClient}
+        slot={adSlot}
+        mode={props.mode}
+        ariaLabel="Sponsored placement inside the utility tools"
+        className="mb-4"
+        minHeight="280px"
+      />
 
       {/* Input/Output Section */}
       <div className="row">

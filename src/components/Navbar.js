@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { FiMoon, FiSun } from 'react-icons/fi';
 
-export default function Navbar({ title = 'Set title here', mode = 'light', toggleMode = () => {} }) {
+export default function Navbar({ title = 'Set title here', mode = 'light', toggleMode = () => {}, onPrivacyPolicyClick = () => {} }) {
     const [showHelp, setShowHelp] = useState(false);
     const props = { title, mode };
     const isDarkMode = props.mode === 'dark';
@@ -87,7 +87,7 @@ export default function Navbar({ title = 'Set title here', mode = 'light', toggl
                             color: props.mode === 'dark' ? '#e6edf3' : '#1f2328'
                         }}>
                             <div className="modal-header" style={{ borderBottom: `2px solid ${props.mode === 'dark' ? '#6366f1' : '#6366f1'}` }}>
-                                <h5 className="modal-title" style={{ color: '#6366f1', fontWeight: '600' }}>Worded — Help & Shortcuts</h5>
+                                <h5 className="modal-title" style={{ color: '#6366f1', fontWeight: '600' }}>TextMint — Help & Shortcuts</h5>
                                 <button 
                                     type="button" 
                                     className="btn-close" 
@@ -131,9 +131,18 @@ export default function Navbar({ title = 'Set title here', mode = 'light', toggl
                                     <li><strong style={{ color: props.mode === 'dark' ? '#a5b4fc' : '#6366f1' }}>Auto-save:</strong> Your work is automatically saved every 2 seconds</li>
                                     <li><strong style={{ color: props.mode === 'dark' ? '#a5b4fc' : '#6366f1' }}>Export:</strong> Download as TXT, HTML, or print your document</li>
                                     <li><strong style={{ color: props.mode === 'dark' ? '#a5b4fc' : '#6366f1' }}>Dark / Light Mode:</strong> Toggle anytime with the moon / sun button in the main toolbar</li>
+                                    <li><strong style={{ color: props.mode === 'dark' ? '#a5b4fc' : '#6366f1' }}>Privacy:</strong> Ads only load after consent, and the privacy policy is always one click away</li>
                                 </ul>
                             </div>
                             <div className="modal-footer">
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-secondary"
+                                    onClick={onPrivacyPolicyClick}
+                                    style={{ borderRadius: '8px', padding: '8px 20px', fontWeight: '500' }}
+                                >
+                                    Privacy Policy
+                                </button>
                                 <button 
                                     type="button"
                                     className="btn"
@@ -154,5 +163,6 @@ export default function Navbar({ title = 'Set title here', mode = 'light', toggl
 Navbar.propTypes = {
     title: PropTypes.string,
     mode: PropTypes.string,
-    toggleMode: PropTypes.func
+    toggleMode: PropTypes.func,
+    onPrivacyPolicyClick: PropTypes.func
 }

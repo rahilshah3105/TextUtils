@@ -280,7 +280,7 @@ If you aren't satisfied with the build tool and configuration choices, you can `
 ## � Project Structure
 
 ```
-worded/
+textmint/
 ├── public/
 │   ├── index.html          # Main HTML file
 │   ├── manifest.json       # PWA manifest
@@ -310,7 +310,7 @@ worded/
 - ✅ **localStorage Only**: Data saved locally on your device
 - ✅ **Open Source**: Review the code yourself
 
-Your privacy is our priority. Worded is designed to work entirely offline after the initial load.
+Your privacy is our priority. TextMint is designed to work entirely offline for the core text tools after the initial load. Ads only load after the user gives consent.
 
 ## 🚀 Deployment
 

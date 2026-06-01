@@ -7,11 +7,15 @@ import React, { useState, useEffect } from 'react';
 import Alert from './components/Alert';
 import TextComparison from './components/TextComparison';
 import UtilityTools from './components/UtilityTools';
+import CookieConsentBanner from './components/CookieConsentBanner';
+import AdBanner from './components/AdBanner';
+import PrivacyPolicyModal from './components/PrivacyPolicyModal';
 
 function App() {
   const [mode, setMode] = useState(localStorage.getItem('mode') || 'light');
   const [alert, setAlert] = useState(null);
   const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab') || 'textForm');
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
 
   // Save preferences to localStorage
   useEffect(() => {
@@ -55,23 +59,43 @@ function App() {
   const renderActiveTab = () => {
     switch (activeTab) {
       case 'textForm':
-        return <TextForm showAlert={showAlert} heading="Try Worded — Advanced Text Analysis & Formatting Tools" mode={mode} />;
+        return <TextForm showAlert={showAlert} heading="Try Worded — Advanced Text Analysis & Formatting Tools" mode={mode} adClient={adClient} adSlot={textFormAdSlot} />;
       case 'textComparison':
-        return <TextComparison showAlert={showAlert} mode={mode} />;
+        return <TextComparison showAlert={showAlert} mode={mode} adClient={adClient} adSlot={comparisonAdSlot} />;
       case 'utilityTools':
-        return <UtilityTools showAlert={showAlert} mode={mode} />;
+        return <UtilityTools showAlert={showAlert} mode={mode} adClient={adClient} adSlot={toolsAdSlot} />;
       default:
-        return <TextForm showAlert={showAlert} heading="Try Worded — Advanced Text Analysis & Formatting Tools" mode={mode} />;
+        return <TextForm showAlert={showAlert} heading="Try Worded — Advanced Text Analysis & Formatting Tools" mode={mode} adClient={adClient} adSlot={textFormAdSlot} />;
     }
   };
 
   const tabAccent = '#6366f1';
+  const adClient = process.env.REACT_APP_ADSENSE_CLIENT_ID || '';
+  const topAdSlot = process.env.REACT_APP_ADSENSE_TOP_SLOT || '';
+  const midAdSlot = process.env.REACT_APP_ADSENSE_MID_SLOT || '';
+  const textFormAdSlot = process.env.REACT_APP_ADSENSE_TEXTFORM_SLOT || '';
+  const comparisonAdSlot = process.env.REACT_APP_ADSENSE_COMPARISON_SLOT || '';
+  const toolsAdSlot = process.env.REACT_APP_ADSENSE_TOOLS_SLOT || '';
 
   return (
     <>
-      <Navbar title="Worded" mode={mode} toggleMode={toggleMode} />
+      <Navbar
+        title="TextMint"
+        mode={mode}
+        toggleMode={toggleMode}
+        onPrivacyPolicyClick={() => setShowPrivacyPolicy(true)}
+      />
       <Alert alert={alert} onDismiss={() => setAlert(null)} />
+      <CookieConsentBanner />
       <div className="container my-3 page-container">
+        <AdBanner
+          client={adClient}
+          slot={topAdSlot}
+          mode={mode}
+          ariaLabel="Sponsored banner placement"
+          className="mb-4"
+          minHeight="120px"
+        />
 
         {/* Tab Navigation */}
         <div className="mb-4 py-4 main-toolbar d-flex flex-wrap justify-content-between align-items-center gap-3">
@@ -111,7 +135,72 @@ function App() {
           {renderActiveTab()}
         </div>
 
+        <AdBanner
+          client={adClient}
+          slot={midAdSlot}
+          mode={mode}
+          ariaLabel="Sponsored content placement"
+          className="mt-4"
+        />
+
+        <footer
+          className="mt-5 pt-4 pb-2 d-flex flex-wrap justify-content-between align-items-center gap-3"
+          style={{
+            borderTop: `1px solid ${mode === 'dark' ? '#2d3748' : '#e5e7eb'}`,
+            color: mode === 'dark' ? '#8b949e' : '#6b7280'
+          }}
+        >
+          <span>TextMint uses ads to keep the core tools free.</span>
+          <button
+            type="button"
+            className="btn btn-link p-0"
+            onClick={() => setShowPrivacyPolicy(true)}
+            style={{ color: '#6366f1', textDecoration: 'none', fontWeight: '600' }}
+          >
+            Privacy Policy
+          </button>
+        </footer>
+
       </div>
+
+      <PrivacyPolicyModal
+        open={showPrivacyPolicy}
+        mode={mode}
+        onClose={() => setShowPrivacyPolicy(false)}
+      />
+
+      {activeTab === 'textForm' && (
+        <AdBanner
+          client={adClient}
+          slot={textFormAdSlot}
+          mode={mode}
+          ariaLabel="Sponsored inline placement for the text editor"
+          className="container mb-4"
+          minHeight="280px"
+        />
+      )}
+
+      {activeTab === 'textComparison' && (
+        <AdBanner
+          client={adClient}
+          slot={comparisonAdSlot}
+          mode={mode}
+          ariaLabel="Sponsored inline placement for the comparison tool"
+          className="container mb-4"
+          minHeight="280px"
+        />
+      )}
+
+      {activeTab === 'utilityTools' && (
+        <AdBanner
+          client={adClient}
+          slot={toolsAdSlot}
+          mode={mode}
+          ariaLabel="Sponsored inline placement for utility tools"
+          className="container mb-4"
+          minHeight="280px"
+        />
+      )}
     </>
   );
 }
