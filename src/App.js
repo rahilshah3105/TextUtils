@@ -90,7 +90,7 @@ function App() {
         onPrivacyPolicyClick={() => setShowPrivacyPolicy(true)}
       />
       {isAppsPage ? (
-        <AppsList mode={mode} adClient={adClient} adSlot={midAdSlot} />
+        <AppsList mode={mode} adClient={adClient} adSlot={midAdSlot} onPrivacyPolicyClick={() => setShowPrivacyPolicy(true)} />
       ) : (
         <>
           <Alert alert={alert} onDismiss={() => setAlert(null)} />
@@ -151,24 +151,6 @@ function App() {
                   ariaLabel="Sponsored content placement"
                   className="mt-4 d-block d-lg-none"
                 />
-
-                <footer
-                  className="mt-5 pt-4 pb-2 d-flex flex-wrap justify-content-between align-items-center gap-3"
-                  style={{
-                    borderTop: `1px solid ${mode === 'dark' ? '#2d3748' : '#e5e7eb'}`,
-                    color: mode === 'dark' ? '#8b949e' : '#6b7280'
-                  }}
-                >
-                  <span>TextMint uses ads to keep the core tools free.</span>
-                  <button
-                    type="button"
-                    className="btn btn-link p-0"
-                    onClick={() => setShowPrivacyPolicy(true)}
-                    style={{ color: '#6366f1', textDecoration: 'none', fontWeight: '600' }}
-                  >
-                    Privacy Policy
-                  </button>
-                </footer>
               </main>
 
               <aside className="col-12 col-lg-4 col-xxl-3 d-none d-lg-block">
@@ -194,44 +176,64 @@ function App() {
             </div>
           </div>
 
-      <PrivacyPolicyModal
-        open={showPrivacyPolicy}
-        mode={mode}
-        onClose={() => setShowPrivacyPolicy(false)}
-      />
+          <PrivacyPolicyModal
+            open={showPrivacyPolicy}
+            mode={mode}
+            onClose={() => setShowPrivacyPolicy(false)}
+          />
 
-      {activeTab === 'textForm' && (
-        <AdBanner
-          client={adClient}
-          slot={textFormAdSlot}
-          mode={mode}
-          ariaLabel="Sponsored inline placement for the text editor"
-          className="container mb-4"
-          minHeight="280px"
-        />
-      )}
+          {activeTab === 'textForm' && (
+            <AdBanner
+              client={adClient}
+              slot={textFormAdSlot}
+              mode={mode}
+              ariaLabel="Sponsored inline placement for the text editor"
+              className="container mb-4"
+              minHeight="280px"
+            />
+          )}
 
-      {activeTab === 'textComparison' && (
-        <AdBanner
-          client={adClient}
-          slot={comparisonAdSlot}
-          mode={mode}
-          ariaLabel="Sponsored inline placement for the comparison tool"
-          className="container mb-4"
-          minHeight="280px"
-        />
-      )}
+          {activeTab === 'textComparison' && (
+            <AdBanner
+              client={adClient}
+              slot={comparisonAdSlot}
+              mode={mode}
+              ariaLabel="Sponsored inline placement for the comparison tool"
+              className="container mb-4"
+              minHeight="280px"
+            />
+          )}
 
           {activeTab === 'utilityTools' && (
-        <AdBanner
-          client={adClient}
-          slot={toolsAdSlot}
-          mode={mode}
-          ariaLabel="Sponsored inline placement for utility tools"
-          className="container mb-4"
-          minHeight="280px"
-        />
+            <AdBanner
+              client={adClient}
+              slot={toolsAdSlot}
+              mode={mode}
+              ariaLabel="Sponsored inline placement for utility tools"
+              className="container mb-4"
+              minHeight="280px"
+            />
           )}
+
+          <footer
+            className="custom-app-footer mt-5 pt-4 pb-2 px-5 d-flex flex-wrap justify-content-between align-items-center gap-3"
+            style={{
+              borderTop: `1px solid ${mode === 'dark' ? '#2d3748' : '#e5e7eb'}`,
+              color: mode === 'dark' ? '#8b949e' : '#6b7280',
+              fontSize: '0.9rem'
+            }}
+          >
+            <button
+              type="button"
+              className="btn btn-link p-0 footer-item-left"
+              onClick={() => setShowPrivacyPolicy(true)}
+              style={{ color: '#6366f1', textDecoration: 'none', fontWeight: '600', fontSize: '0.9rem' }}
+            >
+              Privacy Policy
+            </button>
+            <span className="footer-item-center" style={{ fontWeight: '500' }}>Made with ❤️ in India</span>
+            <span className="footer-item-right">© {new Date().getFullYear()} TextMint. All rights reserved.</span>
+          </footer>
         </>
       )}
     </>

@@ -1,169 +1,303 @@
 .apps-page .apps-heading {
-    font-weight: 700;
-    color: #111827;
+    font-weight: 800;
+    color: #0f172a !important;
     margin-bottom: 6px;
+    letter-spacing: -0.02em;
 }
 
 .apps-page.dark .apps-heading {
-    color: #e6edf3;
+    color: #f8fafc !important;
 }
 
 .apps-page .apps-grid {
     display: grid;
-    gap: 18px;
-    margin-top: 18px;
-    grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+    margin-top: 24px;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
 @media (min-width: 576px) {
     .apps-page .apps-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
     .apps-page .apps-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
 @media (min-width: 1200px) {
     .apps-page .apps-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
+/* Premium App Card Base Style */
 .app-card {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: space-between;
-    gap: 14px;
-    padding: 18px;
-    border-radius: 18px;
-    background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(248, 250, 252, 0.92)),
-        radial-gradient(circle at top left, rgba(99, 102, 241, 0.12), transparent 42%);
-    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
-    text-decoration: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    border: 1px solid rgba(99, 102, 241, 0.12);
-    color: #0f172a;
+    gap: 16px;
     width: 100%;
+    padding: 22px;
+    border-radius: 20px;
+    text-decoration: none !important;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.app-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.14);
-    border-color: rgba(99, 102, 241, 0.24);
+.app-card:focus-visible {
+    outline: 3px solid rgba(99, 102, 241, 0.38);
+    outline-offset: 3px;
 }
 
-.apps-page.dark .app-card {
-    background:
-        linear-gradient(180deg, rgba(12, 17, 23, 0.86), rgba(10, 14, 20, 0.94)),
-        radial-gradient(circle at top left, rgba(139, 92, 246, 0.18), transparent 44%);
-    border: 1px solid rgba(139, 92, 246, 0.18);
-    color: #e6edf3;
+/* Card Header */
+.app-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
 }
 
-.app-card-badge {
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
+.app-card-header-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-width: 0;
+}
+
+.app-card-icon-wrapper {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     flex: 0 0 46px;
-    font-size: 0.95rem;
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    color: #ffffff !important;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    box-shadow: 0 10px 18px rgba(99, 102, 241, 0.28);
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.app-card-content {
+.app-card:hover .app-card-icon-wrapper {
+    transform: scale(1.08) rotate(3deg);
+}
+
+/* Title & Tag Group */
+.app-card-title-group {
+    display: flex;
     flex: 1 1 auto;
     min-width: 0;
-    display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 12px;
-    align-items: center;
+    gap: 5px;
 }
 
-.app-card-copy {
-    min-width: 0;
+.app-card-tag {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    border-radius: 999px;
+    padding: 3px 9px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
 .app-card-title {
-    font-size: 1rem;
+    margin: 0;
+    font-size: 1.05rem;
     font-weight: 800;
-    margin-bottom: 6px;
-    color: inherit;
-    line-height: 1.2;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    transition: color 0.25s ease;
 }
 
-.app-card-desc {
-    color: rgba(15, 23, 42, 0.72);
-    font-size: 0.92rem;
-    line-height: 1.5;
+/* External Link Icon */
+.app-card-icon-external {
+    flex: 0 0 auto;
+    color: #64748b;
+    opacity: 0.65;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                color 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.app-card:hover .app-card-icon-external {
+    transform: translate(3px, -3px);
+    opacity: 1;
+}
+
+/* Card Description */
+.app-card-description {
+    margin: 0;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
     overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    transition: color 0.25s ease;
 }
 
-.apps-page.dark .app-card-desc {
-    color: rgba(226, 232, 240, 0.78);
+/* ========================================================
+   LIGHT MODE DESIGN
+   ======================================================== */
+.apps-page.light .app-card {
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: 
+        linear-gradient(180deg, #ffffff, #f8fafc),
+        radial-gradient(circle at top left, rgba(226, 232, 240, 0.4), transparent 45%);
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.02), 0 2px 4px rgba(15, 23, 42, 0.01);
 }
 
-.app-card-meta {
-    flex: 0 0 auto;
-    align-self: center;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(99, 102, 241, 0.92);
-    white-space: nowrap;
+.apps-page.light .app-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 35px rgba(15, 23, 42, 0.06), 0 4px 8px rgba(15, 23, 42, 0.03);
 }
 
-.apps-page.dark .app-card-meta {
-    color: rgba(196, 181, 253, 0.95);
+.apps-page.light .app-card-title {
+    color: #0f172a !important; /* Force black in light mode */
 }
 
-.app-card-cta {
-    margin-left: auto;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: white;
-    padding: 10px 14px;
-    border-radius: 999px;
-    font-weight: 700;
-    flex: 0 0 auto;
-    box-shadow: 0 10px 18px rgba(99, 102, 241, 0.25);
+.apps-page.light .app-card-description {
+    color: #475569;
 }
 
-.apps-page.dark .app-card-cta {
-    background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+.apps-page.light .app-card:hover .app-card-description {
+    color: #1e293b;
 }
+
+/* Light Mode Themes */
+.apps-page.light .app-card.theme-productivity {
+    background: linear-gradient(180deg, #ffffff, #f8fafc), radial-gradient(circle at top left, rgba(59, 130, 246, 0.06), transparent 45%);
+}
+.apps-page.light .app-card.theme-productivity:hover { border-color: rgba(59, 130, 246, 0.35); }
+.apps-page.light .app-card.theme-productivity .app-card-tag { background: rgba(59, 130, 246, 0.08); color: #2563eb !important; }
+.apps-page.light .app-card.theme-productivity .app-card-icon-wrapper { background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.18); color: #2563eb; }
+.apps-page.light .app-card.theme-productivity:hover .app-card-title { color: #2563eb !important; }
+.apps-page.light .app-card.theme-productivity:hover .app-card-icon-external { color: #2563eb; }
+
+.apps-page.light .app-card.theme-developer-tools {
+    background: linear-gradient(180deg, #ffffff, #f8fafc), radial-gradient(circle at top left, rgba(147, 51, 234, 0.06), transparent 45%);
+}
+.apps-page.light .app-card.theme-developer-tools:hover { border-color: rgba(147, 51, 234, 0.35); }
+.apps-page.light .app-card.theme-developer-tools .app-card-tag { background: rgba(147, 51, 234, 0.08); color: #7c3aed !important; }
+.apps-page.light .app-card.theme-developer-tools .app-card-icon-wrapper { background: rgba(147, 51, 234, 0.08); border: 1px solid rgba(147, 51, 234, 0.18); color: #7c3aed; }
+.apps-page.light .app-card.theme-developer-tools:hover .app-card-title { color: #7c3aed !important; }
+.apps-page.light .app-card.theme-developer-tools:hover .app-card-icon-external { color: #7c3aed; }
+
+.apps-page.light .app-card.theme-security {
+    background: linear-gradient(180deg, #ffffff, #f8fafc), radial-gradient(circle at top left, rgba(16, 185, 129, 0.06), transparent 45%);
+}
+.apps-page.light .app-card.theme-security:hover { border-color: rgba(16, 185, 129, 0.35); }
+.apps-page.light .app-card.theme-security .app-card-tag { background: rgba(16, 185, 129, 0.08); color: #059669 !important; }
+.apps-page.light .app-card.theme-security .app-card-icon-wrapper { background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.18); color: #059669; }
+.apps-page.light .app-card.theme-security:hover .app-card-title { color: #059669 !important; }
+.apps-page.light .app-card.theme-security:hover .app-card-icon-external { color: #059669; }
+
+.apps-page.light .app-card.theme-information {
+    background: linear-gradient(180deg, #ffffff, #f8fafc), radial-gradient(circle at top left, rgba(245, 158, 11, 0.06), transparent 45%);
+}
+.apps-page.light .app-card.theme-information:hover { border-color: rgba(245, 158, 11, 0.35); }
+.apps-page.light .app-card.theme-information .app-card-tag { background: rgba(245, 158, 11, 0.08); color: #d97706 !important; }
+.apps-page.light .app-card.theme-information .app-card-icon-wrapper { background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.18); color: #d97706; }
+.apps-page.light .app-card.theme-information:hover .app-card-title { color: #d97706 !important; }
+.apps-page.light .app-card.theme-information:hover .app-card-icon-external { color: #d97706; }
+
+.apps-page.light .app-card.theme-automation {
+    background: linear-gradient(180deg, #ffffff, #f8fafc), radial-gradient(circle at top left, rgba(244, 63, 94, 0.06), transparent 45%);
+}
+.apps-page.light .app-card.theme-automation:hover { border-color: rgba(244, 63, 94, 0.35); }
+.apps-page.light .app-card.theme-automation .app-card-tag { background: rgba(244, 63, 94, 0.08); color: #e11d48 !important; }
+.apps-page.light .app-card.theme-automation .app-card-icon-wrapper { background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.18); color: #e11d48; }
+.apps-page.light .app-card.theme-automation:hover .app-card-title { color: #e11d48 !important; }
+.apps-page.light .app-card.theme-automation:hover .app-card-icon-external { color: #e11d48; }
+
+
+/* ========================================================
+   DARK MODE DESIGN (High-Tech, Premium, Glowing)
+   ======================================================== */
+.apps-page.dark .app-card {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.apps-page.dark .app-card-title {
+    color: #f8fafc !important; /* Force white in dark mode */
+}
+
+.apps-page.dark .app-card-description {
+    color: #94a3b8;
+}
+
+.apps-page.dark .app-card:hover .app-card-description {
+    color: #cbd5e1;
+}
+
+/* Dark Mode Themes */
+.apps-page.dark .app-card.theme-productivity {
+    border: 1px solid rgba(59, 130, 246, 0.18);
+    background: 
+        linear-gradient(180deg, rgba(17, 24, 39, 0.88), rgba(9, 15, 28, 0.94)),
+        radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.16), transparent 50%);
+}
+.apps-page.dark .app-card.theme-productivity:hover { border-color: rgba(59, 130, 246, 0.45); box-shadow: 0 15px 35px rgba(59, 130, 246, 0.18); }
+.apps-page.dark .app-card.theme-productivity .app-card-tag { background: rgba(59, 130, 246, 0.15); color: #60a5fa !important; }
+.apps-page.dark .app-card.theme-productivity .app-card-icon-wrapper { background: rgba(59, 130, 246, 0.18); border: 1px solid rgba(59, 130, 246, 0.32); color: #60a5fa; }
+.apps-page.dark .app-card.theme-productivity:hover .app-card-title { color: #60a5fa !important; }
+.apps-page.dark .app-card.theme-productivity:hover .app-card-icon-external { color: #60a5fa; }
+
+.apps-page.dark .app-card.theme-developer-tools {
+    border: 1px solid rgba(147, 51, 234, 0.18);
+    background: 
+        linear-gradient(180deg, rgba(17, 24, 39, 0.88), rgba(9, 15, 28, 0.94)),
+        radial-gradient(circle at 10% 10%, rgba(147, 51, 234, 0.16), transparent 50%);
+}
+.apps-page.dark .app-card.theme-developer-tools:hover { border-color: rgba(147, 51, 234, 0.45); box-shadow: 0 15px 35px rgba(147, 51, 234, 0.18); }
+.apps-page.dark .app-card.theme-developer-tools .app-card-tag { background: rgba(147, 51, 234, 0.15); color: #c084fc !important; }
+.apps-page.dark .app-card.theme-developer-tools .app-card-icon-wrapper { background: rgba(147, 51, 234, 0.18); border: 1px solid rgba(147, 51, 234, 0.32); color: #c084fc; }
+.apps-page.dark .app-card.theme-developer-tools:hover .app-card-title { color: #c084fc !important; }
+.apps-page.dark .app-card.theme-developer-tools:hover .app-card-icon-external { color: #c084fc; }
+
+.apps-page.dark .app-card.theme-security {
+    border: 1px solid rgba(16, 185, 129, 0.18);
+    background: 
+        linear-gradient(180deg, rgba(17, 24, 39, 0.88), rgba(9, 15, 28, 0.94)),
+        radial-gradient(circle at 10% 10%, rgba(16, 185, 129, 0.16), transparent 50%);
+}
+.apps-page.dark .app-card.theme-security:hover { border-color: rgba(16, 185, 129, 0.45); box-shadow: 0 15px 35px rgba(16, 185, 129, 0.18); }
+.apps-page.dark .app-card.theme-security .app-card-tag { background: rgba(16, 185, 129, 0.15); color: #34d399 !important; }
+.apps-page.dark .app-card.theme-security .app-card-icon-wrapper { background: rgba(16, 185, 129, 0.18); border: 1px solid rgba(16, 185, 129, 0.32); color: #34d399; }
+.apps-page.dark .app-card.theme-security:hover .app-card-title { color: #34d399 !important; }
+.apps-page.dark .app-card.theme-security:hover .app-card-icon-external { color: #34d399; }
+
+.apps-page.dark .app-card.theme-information {
+    border: 1px solid rgba(245, 158, 11, 0.18);
+    background: 
+        linear-gradient(180deg, rgba(17, 24, 39, 0.88), rgba(9, 15, 28, 0.94)),
+        radial-gradient(circle at 10% 10%, rgba(245, 158, 11, 0.16), transparent 50%);
+}
+.apps-page.dark .app-card.theme-information:hover { border-color: rgba(245, 158, 11, 0.45); box-shadow: 0 15px 35px rgba(245, 158, 11, 0.18); }
+.apps-page.dark .app-card.theme-information .app-card-tag { background: rgba(245, 158, 11, 0.15); color: #fbbf24 !important; }
+.apps-page.dark .app-card.theme-information .app-card-icon-wrapper { background: rgba(245, 158, 11, 0.18); border: 1px solid rgba(245, 158, 11, 0.32); color: #fbbf24; }
+.apps-page.dark .app-card.theme-information:hover .app-card-title { color: #fbbf24 !important; }
+.apps-page.dark .app-card.theme-information:hover .app-card-icon-external { color: #fbbf24; }
+
+.apps-page.dark .app-card.theme-automation {
+    border: 1px solid rgba(244, 63, 94, 0.18);
+    background: 
+        linear-gradient(180deg, rgba(17, 24, 39, 0.88), rgba(9, 15, 28, 0.94)),
+        radial-gradient(circle at 10% 10%, rgba(244, 63, 94, 0.16), transparent 50%);
+}
+.apps-page.dark .app-card.theme-automation:hover { border-color: rgba(244, 63, 94, 0.45); box-shadow: 0 15px 35px rgba(244, 63, 94, 0.18); }
+.apps-page.dark .app-card.theme-automation .app-card-tag { background: rgba(244, 63, 94, 0.15); color: #f87171 !important; }
+.apps-page.dark .app-card.theme-automation .app-card-icon-wrapper { background: rgba(244, 63, 94, 0.18); border: 1px solid rgba(244, 63, 94, 0.32); color: #f87171; }
+.apps-page.dark .app-card.theme-automation:hover .app-card-title { color: #f87171 !important; }
+.apps-page.dark .app-card.theme-automation:hover .app-card-icon-external { color: #f87171; }
 
 @media (max-width: 576px) {
     .app-card {
-        padding: 16px;
-        align-items: flex-start;
-    }
-
-    .app-card-content {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .app-card-meta {
-        white-space: normal;
-    }
-
-    .app-card-cta {
-        padding: 8px 12px;
+        padding: 18px;
     }
 }

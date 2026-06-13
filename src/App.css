@@ -85,3 +85,21 @@ html {
   font-size: 0.875rem;
   margin-top: 0.25rem;
 }
+
+/* Unified Footer Styling for Centering on Desktop */
+@media (min-width: 768px) {
+  .custom-app-footer {
+    display: grid !important;
+    grid-template-columns: 1fr auto 1fr;
+    width: 100%;
+  }
+  .custom-app-footer .footer-item-left {
+    text-align: left;
+  }
+  .custom-app-footer .footer-item-center {
+    text-align: center;
+  }
+  .custom-app-footer .footer-item-right {
+    text-align: right;
+  }
+}

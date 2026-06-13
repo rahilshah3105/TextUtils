@@ -35,7 +35,7 @@ export default function PrivacyPolicyModal({ open, mode = 'light', onClose = () 
             </ul>
             <h6>Why we use ads</h6>
             <p>
-              Ads help keep the core text tools free. We do not ask users to click ads, and we do not place deceptive prompts around ads.
+              TextMint uses ads to keep the core tools free. Ads help support our hosting and development costs. We do not ask users to click ads, and we do not place deceptive prompts around ads.
             </p>
             <h6>Your choices</h6>
             <ul>
