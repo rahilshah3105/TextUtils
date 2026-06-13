@@ -49,6 +49,7 @@ html {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -61,8 +62,21 @@ html {
 
 /* Page container */
 .page-container {
-  min-height: calc(100vh - 80px);
-  padding-bottom: 40px;
+  min-height: calc(100vh - 50px);
+  padding-bottom: 20px;
+}
+
+.home-layout-row {
+  margin-top: 0.5rem;
+}
+
+.home-ad-rail {
+  position: sticky;
+  top: 88px;
+}
+
+.home-ad-rail .ad-banner+.ad-banner {
+  margin-top: 1rem;
 }
 
 /* Error and warning states */

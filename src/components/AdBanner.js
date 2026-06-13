@@ -48,7 +48,8 @@ export default function AdBanner({ client, slot, mode = 'light', className = '',
           padding: '16px',
           minHeight,
           background: mode === 'dark' ? '#111827' : '#f8fafc',
-          color: mode === 'dark' ? '#cbd5e1' : '#475569'
+          color: mode === 'dark' ? '#cbd5e1' : '#475569',
+          maxWidth: '350px',
         }}
       >
         <strong style={{ display: 'block', marginBottom: '4px', color: mode === 'dark' ? '#e5e7eb' : '#0f172a' }}>

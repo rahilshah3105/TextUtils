@@ -575,7 +575,7 @@ export default function TextForm(props) {
           slot={adSlot}
           mode={props.mode}
           ariaLabel="Sponsored placement inside the text editor"
-          className="mb-4"
+          className="mb-4 d-block d-lg-none"
           minHeight="280px"
         />
 
@@ -971,7 +971,8 @@ export default function TextForm(props) {
             border: `2px solid ${props.mode === "dark" ? "#243447" : "rgba(0, 0, 0, 0.08)"}`,
             textAlign: textAlignment,
             minHeight: "100px",
-            transition: "all 0.3s ease"
+            transition: "all 0.3s ease",
+            overflowWrap: "break-word"
           }}
         >
           {text.length > 0 ? text : "Nothing to Preview"}

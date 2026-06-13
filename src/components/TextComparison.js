@@ -140,7 +140,7 @@ export default function TextComparison(props) {
           slot={adSlot}
           mode={props.mode}
           ariaLabel="Sponsored placement inside the comparison tool"
-          className="my-4"
+          className="my-4 d-block d-lg-none"
           minHeight="280px"
         />
       

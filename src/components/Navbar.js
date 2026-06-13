@@ -6,6 +6,9 @@ export default function Navbar({ title = 'Set title here', mode = 'light', toggl
     const [showHelp, setShowHelp] = useState(false);
     const props = { title, mode };
     const isDarkMode = props.mode === 'dark';
+    const currentPath = typeof window !== 'undefined' && window.location ? window.location.pathname : '/';
+    const isAppsPage = currentPath === '/apps' || currentPath === '/apps/';
+    const isHomePage = !isAppsPage;
 
     const shortcuts = [
         { keys: 'Ctrl + S', action: 'Auto-save document' },
@@ -37,7 +40,26 @@ export default function Navbar({ title = 'Set title here', mode = 'light', toggl
                         <span className="navbar-toggler-icon" style={{ filter: 'invert(1)' }}></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0" />
+                        <ul className="navbar-nav me-auto mb-2 mb-lg-0 gap-1">
+                            <li className="nav-item">
+                                <a 
+                                    className={`nav-link navbar-tab-link ${isHomePage ? 'active' : ''}`} 
+                                    href="/" 
+                                    style={{ fontWeight: 600, padding: '8px 16px', borderRadius: '8px' }}
+                                >
+                                    Home
+                                </a>
+                            </li>
+                            <li className="nav-item">
+                                <a 
+                                    className={`nav-link navbar-tab-link ${isAppsPage ? 'active' : ''}`} 
+                                    href="/apps" 
+                                    style={{ fontWeight: 600, padding: '8px 16px', borderRadius: '8px' }}
+                                >
+                                    Apps
+                                </a>
+                            </li>
+                        </ul>
 
                         {/* Help Button */}
                         <button

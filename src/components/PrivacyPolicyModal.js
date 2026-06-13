@@ -46,6 +46,7 @@ export default function PrivacyPolicyModal({ open, mode = 'light', onClose = () 
             <p className="mb-0">
               For production, connect your approved ad network account, add a real contact email, and keep this policy aligned with your actual data practices.
             </p>
+            <p className="mt-3 mb-1" style={{textAlign: 'center', fontSize: '1rem', color: mode === 'dark' ? '#e2e8f0' : '#374151'}}>Made with ❤️ in India</p>
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-primary" onClick={onClose} style={{ borderRadius: '8px' }}>

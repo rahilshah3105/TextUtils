@@ -1004,8 +1004,8 @@ body.bg-dark ::-webkit-scrollbar-thumb:hover {
   }
 
   .container {
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   textarea.form-control {
@@ -1364,4 +1364,45 @@ body.dark-mode ::-webkit-scrollbar-track {
   font-family: monospace;
   font-size: 0.85rem;
   margin: 0 3px;
+}
+
+/* Responsive container width improvements */
+@media (min-width: 1400px) {
+  .page-container {
+    max-width: 1480px !important;
+  }
+}
+
+/* Navbar active tab styling with premium aesthetics */
+.navbar-tab-link {
+  color: rgba(255, 255, 255, 0.78) !important;
+  background: transparent;
+  transition: all 0.22s ease-in-out;
+  border: 1px solid transparent;
+}
+
+.navbar-tab-link:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.navbar-tab-link.active {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.bg-dark .navbar-tab-link.active {
+  color: #ffffff !important;
+  background: rgba(99, 102, 241, 0.3) !important;
+  border: 1px solid rgba(99, 102, 241, 0.45);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.2);
+}
+
+/* Make AdBanner placeholder stretch responsively */
+.ad-banner--placeholder {
+  max-width: 96% !important;
+  width: 100%;
+  box-sizing: border-box;
 }

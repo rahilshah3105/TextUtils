@@ -312,7 +312,7 @@ export default function UtilityTools(props) {
         slot={adSlot}
         mode={props.mode}
         ariaLabel="Sponsored placement inside the utility tools"
-        className="mb-4"
+        className="mb-4 d-block d-lg-none"
         minHeight="280px"
       />
 
