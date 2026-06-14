@@ -7,7 +7,7 @@ const APPS = [
     {
         title: 'Task Manager',
         description: 'Plan your day with a clean task board for creating, tracking, and completing daily to-dos.',
-        url: 'https://taskmint-tools.vercel.app/',
+        url: 'https://taskmint.app/',
         tag: 'Productivity',
         icon: <ClipboardList size={22} className="text-blue-400" />
     },

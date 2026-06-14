@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://taskmint-tools.vercel.app/sitemap.xml
+Sitemap: https://textmint.netlify.app/sitemap.xml
