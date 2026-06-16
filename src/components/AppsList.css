@@ -296,6 +296,29 @@
 .apps-page.dark .app-card.theme-automation:hover .app-card-title { color: #f87171 !important; }
 .apps-page.dark .app-card.theme-automation:hover .app-card-icon-external { color: #f87171; }
 
+/* Light mode extension */
+.apps-page.light .app-card.theme-extension {
+    background: linear-gradient(180deg, #ffffff, #f8fafc), radial-gradient(circle at top left, rgba(249, 115, 22, 0.06), transparent 45%);
+}
+.apps-page.light .app-card.theme-extension:hover { border-color: rgba(249, 115, 22, 0.35); }
+.apps-page.light .app-card.theme-extension .app-card-tag { background: rgba(249, 115, 22, 0.08); color: #ea580c !important; }
+.apps-page.light .app-card.theme-extension .app-card-icon-wrapper { background: rgba(249, 115, 22, 0.08); border: 1px solid rgba(249, 115, 22, 0.18); color: #ea580c; }
+.apps-page.light .app-card.theme-extension:hover .app-card-title { color: #ea580c !important; }
+.apps-page.light .app-card.theme-extension:hover .app-card-icon-external { color: #ea580c; }
+
+/* Dark mode extension */
+.apps-page.dark .app-card.theme-extension {
+    border: 1px solid rgba(249, 115, 22, 0.18);
+    background: 
+        linear-gradient(180deg, rgba(17, 24, 39, 0.88), rgba(9, 15, 28, 0.94)),
+        radial-gradient(circle at 10% 10%, rgba(249, 115, 22, 0.16), transparent 50%);
+}
+.apps-page.dark .app-card.theme-extension:hover { border-color: rgba(249, 115, 22, 0.45); box-shadow: 0 15px 35px rgba(249, 115, 22, 0.18); }
+.apps-page.dark .app-card.theme-extension .app-card-tag { background: rgba(249, 115, 22, 0.15); color: #ff9d43 !important; }
+.apps-page.dark .app-card.theme-extension .app-card-icon-wrapper { background: rgba(249, 115, 22, 0.18); border: 1px solid rgba(249, 115, 22, 0.32); color: #ff9d43; }
+.apps-page.dark .app-card.theme-extension:hover .app-card-title { color: #ff9d43 !important; }
+.apps-page.dark .app-card.theme-extension:hover .app-card-icon-external { color: #ff9d43; }
+
 @media (max-width: 576px) {
     .app-card {
         padding: 18px;

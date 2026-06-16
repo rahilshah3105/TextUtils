@@ -1,7 +1,8 @@
 import React from 'react';
 import './AppsList.css';
 import AdBanner from './AdBanner';
-import { ExternalLink, ClipboardList, Code, KeyRound, Newspaper, Users, Type } from 'lucide-react';
+import { ExternalLink, ClipboardList, Code, KeyRound, Newspaper, Users } from 'lucide-react';
+import { FaChrome } from 'react-icons/fa';
 
 const APPS = [
     {
@@ -26,13 +27,6 @@ const APPS = [
         icon: <KeyRound size={22} className="text-emerald-400" />
     },
     {
-        title: 'Word Utils',
-        description: 'A handy suite of text and word utilities for quick formatting, cleanup, and content edits.',
-        url: 'https://textmint.netlify.app/',
-        tag: 'Text Helper',
-        icon: <Type size={22} className="text-blue-400" />
-    },
-    {
         title: 'Task Manager',
         description: 'Plan your day with a clean task board for creating, tracking, and completing daily to-dos.',
         url: 'https://taskmint-tools.vercel.app/',
@@ -45,6 +39,13 @@ const APPS = [
         url: 'https://getyournewspulse.netlify.app/',
         tag: 'Information',
         icon: <Newspaper size={22} className="text-amber-400" />
+    },
+    {
+        title: 'Chrome Extension',
+        description: 'Access all your favorite developer, social, and security utilities instantly from your browser toolbar.',
+        url: 'https://github.com/rahilshah3105',
+        tag: 'Extension',
+        icon: <FaChrome size={22} className="text-orange-400" />
     },
 ];
 
