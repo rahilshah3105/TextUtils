@@ -63,13 +63,13 @@ function App() {
   const renderActiveTab = () => {
     switch (activeTab) {
       case 'textForm':
-        return <TextForm showAlert={showAlert} heading="Try Worded — Advanced Text Analysis & Formatting Tools" mode={mode} adClient={adClient} adSlot={textFormAdSlot} />;
+        return <TextForm showAlert={showAlert} heading="Try TextMint — Advanced Text Analysis & Formatting Tools" mode={mode} adClient={adClient} adSlot={textFormAdSlot} />;
       case 'textComparison':
         return <TextComparison showAlert={showAlert} mode={mode} adClient={adClient} adSlot={comparisonAdSlot} />;
       case 'utilityTools':
         return <UtilityTools showAlert={showAlert} mode={mode} adClient={adClient} adSlot={toolsAdSlot} />;
       default:
-        return <TextForm showAlert={showAlert} heading="Try Worded — Advanced Text Analysis & Formatting Tools" mode={mode} adClient={adClient} adSlot={textFormAdSlot} />;
+        return <TextForm showAlert={showAlert} heading="Try TextMint — Advanced Text Analysis & Formatting Tools" mode={mode} adClient={adClient} adSlot={textFormAdSlot} />;
     }
   };
 

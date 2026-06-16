@@ -3,7 +3,7 @@
   "name": "TextMint - Text and Word Utility Suite",
   "icons": [
     {
-      "src": "worded-logo.svg",
+      "src": "textmint-logo.svg",
       "sizes": "any",
       "type": "image/svg+xml"
     }

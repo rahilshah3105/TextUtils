@@ -1,0 +1,45 @@
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+    <!-- Accent Leaf/Glow Gradient -->
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <!-- Drop Shadow for Text/Emblem -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="180" height="180" rx="38" fill="url(#bgGrad)"/>
+  
+  <!-- Subtle glassmorphic grid background lines in the logo for premium look -->
+  <path d="M30 40 H150" stroke="white" stroke-opacity="0.08" stroke-width="2"/>
+  <path d="M30 75 H150" stroke="white" stroke-opacity="0.08" stroke-width="2"/>
+  <path d="M30 110 H150" stroke="white" stroke-opacity="0.08" stroke-width="2"/>
+  
+  <!-- Stylized Emblem Group -->
+  <g filter="url(#shadow)">
+    <!-- Document background silhouette (glassmorphic feel) -->
+    <rect x="55" y="38" width="70" height="84" rx="10" fill="white" fill-opacity="0.12" stroke="white" stroke-opacity="0.25" stroke-width="1.5"/>
+    
+    <!-- Stylized Letter 'T' inside the document -->
+    <path d="M74 54 H106 M90 54 V102" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- A cute, modern Mint Leaf overlapping the T's corner -->
+    <path d="M100 46 C112 34, 128 42, 126 56 C124 70, 110 68, 100 46 Z" fill="url(#leafGrad)" stroke="white" stroke-width="1.5"/>
+    <path d="M100 46 C108 52, 116 54, 126 56" stroke="white" stroke-width="1" stroke-opacity="0.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Brand Text -->
+  <text x="50%" y="82%" text-anchor="middle" fill="#FFFFFF" font-size="18" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" letter-spacing="0.5px" filter="url(#shadow)">TextMint</text>
+  
+  <!-- A tiny subline dot or bar -->
+  <rect x="80" y="152" width="20" height="3" rx="1.5" fill="white" opacity="0.4"/>
+</svg>

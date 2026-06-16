@@ -85,7 +85,7 @@ To make your README more attractive, add screenshots:
 
 3. Update the README.md screenshot placeholder:
    ```markdown
-   <img src="public/screenshots/main-view.png" alt="Worded Screenshot" width="100%">
+   <img src="public/screenshots/main-view.png" alt="TextMint Screenshot" width="100%">
    ```
 
 ---
@@ -95,16 +95,16 @@ To make your README more attractive, add screenshots:
 If you deploy your app, add the live URL to the **Website** field in repository settings:
 
 Examples:
-- GitHub Pages: `https://yourusername.github.io/worded`
-- Vercel: `https://worded.vercel.app`
-- Netlify: `https://worded.netlify.app`
+- GitHub Pages: `https://yourusername.github.io/textmint`
+- Vercel: `https://textmint.vercel.app`
+- Netlify: `https://textmint.netlify.app`
 
 ---
 
 ## 📝 Social Preview
 
 Create a social preview image (1280x640px) showing:
-- App name (Worded)
+- App name (TextMint)
 - Tagline: "Advanced Text Analysis & Formatting Tools"
 - Key features
 - Tech stack badges
@@ -120,7 +120,7 @@ If you want to feature this project in your GitHub profile README:
 ```markdown
 ### 🚀 Featured Projects
 
-#### [Worded - Text Analysis & Formatting Tools](https://github.com/yourusername/worded)
+#### [TextMint - Text Analysis & Formatting Tools](https://github.com/yourusername/textmint)
 A comprehensive React-based text manipulation tool with 30+ utilities including text transformation, readability analysis, JSON formatting, Base64 encoding, and more. Features auto-save, dark mode, and multiple themes.
 
 **Tech Stack:** React, Bootstrap, JavaScript, HTML5, CSS3  
@@ -134,12 +134,12 @@ A comprehensive React-based text manipulation tool with 30+ utilities including 
 Add these badges to your README for more credibility:
 
 ```markdown
-[![GitHub issues](https://img.shields.io/github/issues/yourusername/worded)](../../issues)
-[![GitHub forks](https://img.shields.io/github/forks/yourusername/worded)](../../network)
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/worded)](../../stargazers)
-[![GitHub license](https://img.shields.io/github/license/yourusername/worded)](LICENSE)
-[![Code Size](https://img.shields.io/github/languages/code-size/yourusername/worded)]()
-[![Last Commit](https://img.shields.io/github/last-commit/yourusername/worded)]()
+[![GitHub issues](https://img.shields.io/github/issues/yourusername/textmint)](../../issues)
+[![GitHub forks](https://img.shields.io/github/forks/yourusername/textmint)](../../network)
+[![GitHub stars](https://img.shields.io/github/stars/yourusername/textmint)](../../stargazers)
+[![GitHub license](https://img.shields.io/github/license/yourusername/textmint)](LICENSE)
+[![Code Size](https://img.shields.io/github/languages/code-size/yourusername/textmint)]()
+[![Last Commit](https://img.shields.io/github/last-commit/yourusername/textmint)]()
 ```
 
 ---

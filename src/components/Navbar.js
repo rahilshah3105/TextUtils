@@ -33,7 +33,7 @@ export default function Navbar({ title = 'Set title here', mode = 'light', toggl
             >
                 <div className="container-fluid">
                     <a className="navbar-brand d-flex align-items-center fw-bold" href="/" style={{ color: 'white', letterSpacing: '0.5px' }}>
-                        <img src="/worded-logo.svg" alt="Worded Logo" style={{ height: '30px', marginRight: '10px' }} />
+                        <img src="/textmint-logo.svg" alt="TextMint Logo" style={{ height: '30px', marginRight: '10px' }} />
                         {props.title}
                     </a>
                     <button className="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

@@ -332,7 +332,7 @@ export default function TextForm(props) {
   };
 
   const handleEmailText = () => {
-    const subject = encodeURIComponent("Shared Text from Worded");
+    const subject = encodeURIComponent("Shared Text from TextMint");
     const body = encodeURIComponent(text);
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
     props.showAlert("Email client opened", "success");
