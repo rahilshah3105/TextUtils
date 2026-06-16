@@ -1,22 +1,22 @@
 import React from 'react';
 import './AppsList.css';
 import AdBanner from './AdBanner';
-import { ExternalLink, ClipboardList, Code, KeyRound, Newspaper, SearchCode } from 'lucide-react';
+import { ExternalLink, ClipboardList, Code, KeyRound, Newspaper, Users, Type } from 'lucide-react';
 
 const APPS = [
     {
-        title: 'Task Manager',
-        description: 'Plan your day with a clean task board for creating, tracking, and completing daily to-dos.',
-        url: 'https://taskmint-tools.vercel.app/',
-        tag: 'Productivity',
-        icon: <ClipboardList size={22} className="text-blue-400" />
-    },
-    {
         title: 'Code Formatter',
-        description: 'Format your code snippets with a simple interface supporting multiple languages and themes. Also helps you to beautify your code and make it more readable, and many more features there to make your coding simpler and smooth..',
+        description: 'Format your code snippets with a simple interface supporting multiple languages and themes.',
         url: 'https://devmint-tools.vercel.app/',
         tag: 'Developer Tools',
         icon: <Code size={22} className="text-purple-400" />
+    },
+    {
+        title: 'Instagram Analyzer',
+        description: 'Analyze your Instagram connections, unfollowers, requests, and profile interactions.',
+        url: 'https://instautility.netlify.app/',
+        tag: 'Social',
+        icon: <Users size={22} className="text-pink-400" />
     },
     {
         title: 'Password Manager',
@@ -26,18 +26,25 @@ const APPS = [
         icon: <KeyRound size={22} className="text-emerald-400" />
     },
     {
-        title: 'NewsApp (NewsPulse)',
+        title: 'Word Utils',
+        description: 'A handy suite of text and word utilities for quick formatting, cleanup, and content edits.',
+        url: 'https://textmint.netlify.app/',
+        tag: 'Text Helper',
+        icon: <Type size={22} className="text-blue-400" />
+    },
+    {
+        title: 'Task Manager',
+        description: 'Plan your day with a clean task board for creating, tracking, and completing daily to-dos.',
+        url: 'https://taskmint-tools.vercel.app/',
+        tag: 'Productivity',
+        icon: <ClipboardList size={22} className="text-indigo-400" />
+    },
+    {
+        title: 'NewsPulse',
         description: 'Read latest headlines by category with a responsive news reader featuring bookmarks and dark mode.',
         url: 'https://getyournewspulse.netlify.app/',
         tag: 'Information',
         icon: <Newspaper size={22} className="text-amber-400" />
-    },
-    {
-        title: 'Bing Cypress Search',
-        description: 'A Cypress automation project for validating Bing search flows and end-to-end browser scenarios.',
-        url: 'https://github.com/rahilshah3105/bing-cypress-search',
-        tag: 'Automation',
-        icon: <SearchCode size={22} className="text-rose-400" />
     },
 ];
 
