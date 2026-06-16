@@ -1,76 +1,87 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-function loadAdSenseScript(client) {
-  if (!client || typeof document === 'undefined') {
-    return;
-  }
-
-  const existingScript = document.querySelector('script[data-textmint-adsense="true"]');
-  if (existingScript) {
-    return;
-  }
-
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
-  script.setAttribute('data-ad-client', client);
-  script.setAttribute('data-textmint-adsense', 'true');
-  document.head.appendChild(script);
-}
-
-export default function AdBanner({ client, slot, mode = 'light', className = '', ariaLabel = 'Advertisement', minHeight = '90px' }) {
-  const adRef = useRef(null);
+export default function AdBanner({ className = '', minHeight = '90px' }) {
+  const containerRef = useRef(null);
+  const [width, setWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
 
   useEffect(() => {
-    if (!client || !slot || typeof window === 'undefined') {
-      return;
-    }
+    if (typeof window === 'undefined') return;
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-    loadAdSenseScript(client);
+  useEffect(() => {
+    if (typeof window === 'undefined' || !containerRef.current) return;
+
+    // Clear any previous ad content
+    containerRef.current.innerHTML = '';
+
+    // Determine key and dimensions based on screen size
+    let key = '';
+    let adWidth = 728;
+    let adHeight = 90;
+
+    if (width >= 768) {
+      // 728x90 Banner
+      key = process.env.REACT_APP_AD_KEY_728X90 || '4f94edf4c6446ee14dbc348bb1551ba4';
+      adWidth = 728;
+      adHeight = 90;
+    } else {
+      // 320x50 Banner
+      key = process.env.REACT_APP_AD_KEY_320X50 || '8b79ec7fb7f9ece383d90bfeb75670cc';
+      adWidth = 320;
+      adHeight = 50;
+    }
 
     try {
-      window.adsbygoogle = window.adsbygoogle || [];
-      window.adsbygoogle.push({});
-    } catch {
-      // Ad scripts can fail silently in dev or without a valid account.
-    }
-  }, [client, slot]);
+      const iframe = document.createElement('iframe');
+      iframe.width = adWidth;
+      iframe.height = adHeight;
+      iframe.frameBorder = '0';
+      iframe.scrolling = 'no';
+      iframe.style.border = 'none';
+      iframe.style.overflow = 'hidden';
 
-  if (!client || !slot) {
-    return (
-      <div
-        className={`ad-banner ad-banner--placeholder ${className}`.trim()}
-        role="note"
-        aria-label={ariaLabel}
-        style={{
-          border: `1px dashed ${mode === 'dark' ? '#4b5563' : '#cbd5e1'}`,
-          borderRadius: '14px',
-          padding: '16px',
-          minHeight,
-          background: mode === 'dark' ? '#111827' : '#f8fafc',
-          color: mode === 'dark' ? '#cbd5e1' : '#475569',
-          maxWidth: '350px',
-        }}
-      >
-        <strong style={{ display: 'block', marginBottom: '4px', color: mode === 'dark' ? '#e5e7eb' : '#0f172a' }}>
-          Ad space reserved
-        </strong>
-        Configure `REACT_APP_ADSENSE_CLIENT_ID` and slot IDs to enable live ads after consent.
-      </div>
-    );
-  }
+      containerRef.current.appendChild(iframe);
+
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      iframeDoc.open();
+      iframeDoc.write(`
+        <html>
+          <body style="margin:0;padding:0;">
+            <script type="text/javascript">
+              var atOptions = {
+                'key' : '${key}',
+                'format' : 'iframe',
+                'height' : ${adHeight},
+                'width' : ${adWidth},
+                'params' : {}
+              };
+              document.write('<scr' + 'ipt type="text/javascript" src="https://www.highperformanceformat.com/${key}/invoke.js"></scr' + 'ipt>');
+            </script>
+          </body>
+        </html>
+      `);
+      iframeDoc.close();
+    } catch (err) {
+      console.error('Error loading ad script:', err);
+    }
+  }, [width]);
 
   return (
-    <div className={`ad-banner ${className}`.trim()} aria-label={ariaLabel}>
-      <ins
-        ref={adRef}
-        className="adsbygoogle"
-        style={{ display: 'block', minHeight }}
-        data-ad-client={client}
-        data-ad-slot={slot}
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      />
+    <div 
+      className={`ad-banner ${className}`.trim()} 
+      style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        width: '100%', 
+        minHeight,
+        margin: '1.5rem auto' 
+      }}
+    >
+      <div ref={containerRef} style={{ display: 'flex', justifyContent: 'center', width: '100%' }} />
     </div>
   );
 }
